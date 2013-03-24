@@ -74,6 +74,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        
+        
     }
 
     @Override
@@ -122,19 +124,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages: categories, top questions, recent questions, my questions
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase();
+                	return "categories";
+                	//return getString(R.string.title_section1).toUpperCase();
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase();
+                	return "top questions";
+                    //return getString(R.string.title_section2).toUpperCase();
                 case 2:
-                    return getString(R.string.title_section3).toUpperCase();
+                	return "recent questions";
+                    //return getString(R.string.title_section3).toUpperCase();
+                case 3:
+                	return "my questions";
             }
             return null;
         }
