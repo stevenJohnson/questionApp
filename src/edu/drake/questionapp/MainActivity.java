@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
         
-        
+        actionBar.setSelectedNavigationItem(1); // start with top questions selected
     }
 
     @Override
