@@ -1,32 +1,28 @@
 package edu.drake.questionapp;
 
-import utilities.*;
+import utilities.PhotoImageAdapter;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
+	private static final String TAG = "MainActivity";
+	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -94,6 +90,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	 @Override 	
+	 public boolean onOptionsItemSelected(MenuItem item) 
+	 { 	    	
+		 switch (item.getItemId()) 	   
+		 { 	    	
+		 	case R.id.menu_settings: 
+		 		Log.i(TAG, "This is working"); 	    
+		 		return true; 	 
+		 	default: 	 
+		 		return super.onOptionsItemSelected(item); 	 
+		 }
+	 }
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction)
