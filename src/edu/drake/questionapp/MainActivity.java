@@ -1,6 +1,6 @@
 package edu.drake.questionapp;
 
-import utilities.PhotoImageAdapter;
+import fragments.*;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -10,14 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
@@ -169,67 +163,4 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			return null;
 		}
 	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment
-	{
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			// Create a new TextView and set its text to the fragment's section
-			// number argument value.
-			TextView textView = new TextView(getActivity());
-			textView.setGravity(Gravity.CENTER);
-			textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-			return textView;
-		}
-	}
-
-	public static class PhotoFragment extends Fragment
-	{
-		/*@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-		    super.onCreate(savedInstanceState);
-
-			GridView gridView = (GridView) this.getActivity().findViewById(R.id.gridview);
-			gridView.setAdapter(new PhotoImageAdapter(this.getActivity()));
-
-		    gridView.setOnItemClickListener(new OnItemClickListener()
-		    {
-		        public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-		        {
-		            Toast.makeText(new MainActivity(), "" + position, Toast.LENGTH_SHORT).show();
-		        }
-		    });
-		}
-		*/
-		
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState)
-		{
-			super.onActivityCreated(savedInstanceState);
-		}
-
-		@Override
-		public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			View view = inflater.inflate(R.layout.gridview,container,false);
-			GridView gridView = (GridView) view.findViewById(R.id.gridview);
-			gridView.setAdapter(new PhotoImageAdapter(view.getContext()));			
-			return view;			
-		}
-	}
-
 }
