@@ -134,6 +134,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			{
 				return new PhotoFragment();
 			}
+			
+			if(position == 3)
+			{
+				return new MyQFragment();
+			}
 
 			Fragment fragment = new DummySectionFragment();
 			Bundle args = new Bundle();
