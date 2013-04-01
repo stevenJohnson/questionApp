@@ -31,6 +31,10 @@
             android:name="edu.drake.questionapp.CategoryActivity"
             android:label="@string/title_activity_category" >
         </activity>
+        <activity
+            android:name="edu.drake.questionapp.Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

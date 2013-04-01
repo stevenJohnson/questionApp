@@ -1,8 +1,8 @@
 package edu.drake.questionapp;
 
-import fragments.*;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import fragments.DummySectionFragment;
+import fragments.PhotoFragment;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
@@ -93,7 +95,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		switch (item.getItemId()) 	   
 		{ 	    	
 		case R.id.menu_settings: 
-			Log.i(TAG, "This is working"); 	    
+			Log.i(TAG, "This is working"); 	  
+			Intent intent = new Intent(this, Settings.class);
+			startActivity(intent);
 			return true; 	 
 		default: 	 
 			return super.onOptionsItemSelected(item); 	 
