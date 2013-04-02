@@ -47,5 +47,6 @@ public class PhotoFragment extends Fragment
 		GridView gridView = (GridView) view.findViewById(R.id.gridview);
 		gridView.setAdapter(new PhotoImageAdapter(view.getContext()));			
 		return view;			
+		
 	}
 }
