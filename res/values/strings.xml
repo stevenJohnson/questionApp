@@ -12,5 +12,10 @@
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_edit_profile">EditProfile</string>
+    <string name="title_activity_change_email">ChangeEmail</string>
+    <string name="title_activity_change_profile">ChangeProfile</string>
+    <string name="title_activity_user_profile">UserProfile</string>
+    <string name="title_activity_search">Search</string>
 
 </resources>

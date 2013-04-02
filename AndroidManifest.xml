@@ -39,6 +39,26 @@
             android:name="edu.drake.questionapp.QuestionActivity"
             android:label="@string/title_activity_question" >
         </activity>
+        <activity
+            android:name="edu.drake.questionapp.EditProfile"
+            android:label="@string/title_activity_edit_profile" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.ChangeEmail"
+            android:label="@string/title_activity_change_email" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.ChangeProfile"
+            android:label="@string/title_activity_change_profile" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.UserProfile"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.Search"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
 </manifest>
