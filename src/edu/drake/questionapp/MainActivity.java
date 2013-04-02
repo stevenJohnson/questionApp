@@ -139,6 +139,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				return new PhotoFragment();
 			}
 			
+			if(position == 1)
+			{
+				return new TopqActivity();
+			}
+			
+			if(position == 2)
+			{
+				return new RecqActivity();
+			} 
 			if(position == 3)
 			{
 				return new MyQFragment();

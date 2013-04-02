@@ -21,8 +21,10 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int kesha=0x7f020001;
+        public static final int abe=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int kesha=0x7f020002;
+        public static final int norris=0x7f020003;
     }
     public static final class id {
         public static final int action_settings=0x7f08000f;
@@ -48,8 +50,10 @@ public final class R {
         public static final int activity_main=0x7f030002;
         public static final int activity_settings=0x7f030003;
         public static final int fragment_my_q=0x7f030004;
-        public static final int gridview=0x7f030005;
-        public static final int simplerow=0x7f030006;
+        public static final int fragment_recq=0x7f030005;
+        public static final int fragment_topq=0x7f030006;
+        public static final int gridview=0x7f030007;
+        public static final int simplerow=0x7f030008;
     }
     public static final class menu {
         public static final int activity_category=0x7f070000;
@@ -59,23 +63,24 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f050008;
-        public static final int action_sign_in_register=0x7f05000c;
-        public static final int action_sign_in_short=0x7f05000d;
+        public static final int action_sign_in_register=0x7f05000d;
+        public static final int action_sign_in_short=0x7f05000e;
         public static final int app_name=0x7f050000;
-        public static final int error_field_required=0x7f050013;
-        public static final int error_incorrect_password=0x7f050012;
-        public static final int error_invalid_email=0x7f050010;
-        public static final int error_invalid_password=0x7f050011;
+        public static final int error_field_required=0x7f050014;
+        public static final int error_incorrect_password=0x7f050013;
+        public static final int error_invalid_email=0x7f050011;
+        public static final int error_invalid_password=0x7f050012;
+        public static final int hello_blank_fragment=0x7f050009;
         public static final int hello_world=0x7f050004;
-        public static final int login_progress_signing_in=0x7f05000f;
-        public static final int menu_forgot_password=0x7f05000e;
+        public static final int login_progress_signing_in=0x7f050010;
+        public static final int menu_forgot_password=0x7f05000f;
         public static final int menu_settings=0x7f050005;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f05000a;
-        public static final int prompt_password=0x7f05000b;
+        public static final int prompt_email=0x7f05000b;
+        public static final int prompt_password=0x7f05000c;
         public static final int title_activity_category=0x7f050006;
-        public static final int title_activity_login=0x7f050009;
+        public static final int title_activity_login=0x7f05000a;
         public static final int title_activity_settings=0x7f050007;
         public static final int title_section1=0x7f050003;
         public static final int title_section2=0x7f050002;
