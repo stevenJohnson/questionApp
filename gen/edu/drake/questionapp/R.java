@@ -22,9 +22,31 @@ public final class R {
     }
     public static final class drawable {
         public static final int abe=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int kesha=0x7f020002;
-        public static final int norris=0x7f020003;
+        public static final int anyone=0x7f020001;
+        public static final int armstrong=0x7f020002;
+        public static final int arnold=0x7f020003;
+        public static final int batman=0x7f020004;
+        public static final int bond=0x7f020005;
+        public static final int brangelina=0x7f020006;
+        public static final int clinton=0x7f020007;
+        public static final int confucius=0x7f020008;
+        public static final int dumbledore=0x7f020009;
+        public static final int gaga=0x7f02000a;
+        public static final int ghandi=0x7f02000b;
+        public static final int ic_launcher=0x7f02000c;
+        public static final int jackson=0x7f02000d;
+        public static final int jesus=0x7f02000e;
+        public static final int kesha=0x7f02000f;
+        public static final int legit=0x7f020010;
+        public static final int lincoln=0x7f020011;
+        public static final int norris=0x7f020012;
+        public static final int obama=0x7f020013;
+        public static final int palin=0x7f020014;
+        public static final int pope=0x7f020015;
+        public static final int shakespeare=0x7f020016;
+        public static final int snape=0x7f020017;
+        public static final int tswift=0x7f020018;
+        public static final int wonderwoman=0x7f020019;
     }
     public static final class id {
         public static final int EditText01=0x7f080006;

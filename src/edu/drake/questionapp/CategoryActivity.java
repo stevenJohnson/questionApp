@@ -1,6 +1,7 @@
 package edu.drake.questionapp;
 
 import utilities.Answerer;
+import utilities.CategorySorter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -15,13 +16,11 @@ public class CategoryActivity extends Activity
 
 		setContentView(R.layout.activity_category);
 
-		int personQuery = getIntent().getExtras().getInt("person");
+		int personQuery = getIntent().getExtras().getInt("position");
 
 		TextView tv = (TextView) findViewById(R.id.categoryQueryText);
 
-		if(personQuery > 3) personQuery = 3;
-
-		tv.setText("questions from " + Answerer.values()[personQuery]);
+		tv.setText("questions from " + Answerer.values()[CategorySorter.getPosition(personQuery)]);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class PhotoFragment extends Fragment
 				
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(getView().getContext(), CategoryActivity.class);
-				intent.putExtra("person", pos);
+				intent.putExtra("position", pos);
 				startActivity(intent);
 			}
 		});

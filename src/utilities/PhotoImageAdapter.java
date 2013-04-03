@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import edu.drake.questionapp.R;
 
 public class PhotoImageAdapter extends BaseAdapter
 {
@@ -19,7 +18,7 @@ public class PhotoImageAdapter extends BaseAdapter
 
 	public int getCount()
 	{
-		return mThumbIds.length;
+		return CategorySorter.getLength();
 	}
 
 	public Object getItem(int position)
@@ -47,27 +46,8 @@ public class PhotoImageAdapter extends BaseAdapter
 			imageView = (ImageView) convertView;
 		}
 
-		imageView.setImageResource(mThumbIds[position]);
+		imageView.setImageResource(CategorySorter.getDrawable(CategorySorter.getPosition(position)));
+		
 		return imageView;
 	}
-
-	private Integer[] mThumbIds =
-		{
-			R.drawable.kesha,
-			R.drawable.abe,
-			R.drawable.norris,
-			R.drawable.abe,
-			R.drawable.abe,
-			R.drawable.norris,
-			R.drawable.kesha,
-			R.drawable.abe,
-			R.drawable.kesha,
-			R.drawable.kesha,
-			R.drawable.abe,
-			R.drawable.norris,
-			R.drawable.abe,
-			R.drawable.norris,
-			R.drawable.kesha,
-			R.drawable.kesha,
-		};
 }
