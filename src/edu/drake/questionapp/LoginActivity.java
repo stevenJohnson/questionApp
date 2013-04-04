@@ -20,7 +20,8 @@ import android.widget.TextView;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity
+{
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
@@ -99,8 +100,10 @@ public class LoginActivity extends Activity {
 	 * If there are form errors (invalid email, missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
 	 */
-	public void attemptLogin() {
-		if (mAuthTask != null) {
+	public void attemptLogin()
+	{
+		if (mAuthTask != null)
+		{
 			return;
 		}
 
@@ -116,32 +119,41 @@ public class LoginActivity extends Activity {
 		View focusView = null;
 
 		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
+		if (TextUtils.isEmpty(mPassword))
+		{
 			mPasswordView.setError(getString(R.string.error_field_required));
 			focusView = mPasswordView;
 			cancel = true;
-		} else if (mPassword.length() < 4) {
+		}
+		else if (mPassword.length() < 4)
+		{
 			mPasswordView.setError(getString(R.string.error_invalid_password));
 			focusView = mPasswordView;
 			cancel = true;
 		}
 
 		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
+		if (TextUtils.isEmpty(mEmail))
+		{
 			mEmailView.setError(getString(R.string.error_field_required));
 			focusView = mEmailView;
 			cancel = true;
-		} else if (!mEmail.contains("@")) {
+		}
+		else if (!mEmail.contains("@"))
+		{
 			mEmailView.setError(getString(R.string.error_invalid_email));
 			focusView = mEmailView;
 			cancel = true;
 		}
 
-		if (cancel) {
+		if (cancel)
+		{
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
 			focusView.requestFocus();
-		} else {
+		}
+		else
+		{
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
@@ -198,19 +210,25 @@ public class LoginActivity extends Activity {
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		protected Boolean doInBackground(Void... params)
+		{
 			// TODO: attempt authentication against a network service.
 
-			try {
+			try
+			{
 				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e)
+			{
 				return false;
 			}
 
-			for (String credential : DUMMY_CREDENTIALS) {
+			for (String credential : DUMMY_CREDENTIALS)
+			{
 				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
+				if (pieces[0].equals(mEmail))
+				{
 					// Account exists, return true if the password matches.
 					return pieces[1].equals(mPassword);
 				}
@@ -221,15 +239,20 @@ public class LoginActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(final Boolean success) {
+		protected void onPostExecute(final Boolean success)
+		{
 			mAuthTask = null;
 			showProgress(false);
 
-			if (success) {
+			if (success)
+			{
 				// successful login... so start main activity
 				Intent intent = new Intent(getBaseContext(), MainActivity.class);
         		startActivity(intent);
-			} else {
+        		finish();
+			}
+			else
+			{
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
