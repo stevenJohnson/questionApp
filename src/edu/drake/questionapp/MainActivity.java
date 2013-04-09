@@ -95,9 +95,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		switch (item.getItemId()) 	   
 		{ 	    	
 		case R.id.menu_settings: 
-			Log.i(TAG, "This is working"); 	  
 			Intent intent = new Intent(this, Settings.class);
 			startActivity(intent);
+			return true;
+		case R.id.search:
+			Intent intentSearch = new Intent(this,Search.class);
+			startActivity(intentSearch);
 			return true;
 		default: 	 
 			return super.onOptionsItemSelected(item); 	 

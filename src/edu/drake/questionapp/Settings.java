@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,12 +58,21 @@ public class Settings extends Activity {
 		        	  Intent i3 = new Intent(Settings.this,ChangeProfile.class);     
 			          Settings.this.startActivity(i3);
 			          return;
-		  
-		        	  
-		          }
+		          case 4:
+		        	  new AlertDialog.Builder(Settings.this)
+		        	  .setTitle("Log Out")
+		        	  .setMessage("Are you sure that you want to log out?")
+		        	  .setIcon(android.R.drawable.ic_dialog_alert)
+		        	  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
+		        	      public void onClick(DialogInterface dialog, int whichButton) {
+		        	    	  Intent goLogin = new Intent(Settings.this, LoginActivity.class);     
+					          Settings.this.startActivity(goLogin);
+		        	      }})
+		        	   .setNegativeButton(android.R.string.no, null).show();
+		        	  return;
+		          }
 			 }
-			 
 		 } );
 		 
 		 
