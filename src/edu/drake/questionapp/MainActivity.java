@@ -98,7 +98,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			Log.i(TAG, "This is working"); 	  
 			Intent intent = new Intent(this, Settings.class);
 			startActivity(intent);
-			return true; 	 
+			return true;
 		default: 	 
 			return super.onOptionsItemSelected(item); 	 
 		}

@@ -59,6 +59,14 @@
             android:name="edu.drake.questionapp.Search"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name="edu.drake.questionapp.AnswerActivity"
+            android:label="@string/title_activity_answer" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.NewQuestion"
+            android:label="@string/title_activity_new_question" >
+        </activity>
     </application>
 
 </manifest>
