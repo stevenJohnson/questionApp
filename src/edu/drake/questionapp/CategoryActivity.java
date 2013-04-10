@@ -1,6 +1,6 @@
 package edu.drake.questionapp;
 
-import utilities.Answerer;
+import utilities.*;
 import utilities.CategorySorter;
 import android.os.Bundle;
 import android.app.Activity;
@@ -20,7 +20,7 @@ public class CategoryActivity extends Activity
 
 		TextView tv = (TextView) findViewById(R.id.categoryQueryText);
 
-		tv.setText("questions from " + Answerer.values()[CategorySorter.getPosition(personQuery)]);
+		tv.setText("questions from " + Answerer.values()[CategorySorter.getPosition(personQuery)] + "\n    here is who is logged in ::: " + ((ThisApplication)getApplicationContext()).getUsername());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package edu.drake.questionapp;
 
+import utilities.*;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -247,6 +248,7 @@ public class LoginActivity extends Activity
 			if (success)
 			{
 				// successful login... so start main activity
+				((ThisApplication) getApplication()).setUsername(mEmail);
 				Intent intent = new Intent(getBaseContext(), MainActivity.class);
         		startActivity(intent);
         		finish();
