@@ -81,6 +81,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// start with top questions selected
 		actionBar.setSelectedNavigationItem(1);
 	}
+	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		boolean login = getIntent().getBooleanExtra("logging_out", false);
+        if (login) {
+            startActivity(new Intent(getBaseContext(), LoginActivity.class));
+            finish();
+            return;
+        }
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)

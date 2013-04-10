@@ -65,9 +65,13 @@ public class Settings extends Activity {
 		        	  .setIcon(android.R.drawable.ic_dialog_alert)
 		        	  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-		        	      public void onClick(DialogInterface dialog, int whichButton) {
-		        	    	  Intent goLogin = new Intent(Settings.this, LoginActivity.class);     
+		        	      public void onClick(DialogInterface dialog, int whichButton)
+		        	      {
+		        	    	  Intent goLogin = new Intent(Settings.this, MainActivity.class);
+		        	    	  goLogin.putExtra("logging_out", true);
+		        	    	  goLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					          Settings.this.startActivity(goLogin);
+					          finish();
 		        	      }})
 		        	   .setNegativeButton(android.R.string.no, null).show();
 		        	  return;
