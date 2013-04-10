@@ -87,8 +87,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	protected void onStart()
 	{
 		super.onStart();
-		boolean login = getIntent().getBooleanExtra("logging_out", false);
-        if (login) {
+        if (((ThisApplication)getApplicationContext()).getUsername() == null)
+        {
             startActivity(new Intent(getBaseContext(), LoginActivity.class));
             finish();
             return;

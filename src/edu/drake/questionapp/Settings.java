@@ -3,6 +3,8 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import utilities.ThisApplication;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -68,7 +70,7 @@ public class Settings extends Activity {
 		        	      public void onClick(DialogInterface dialog, int whichButton)
 		        	      {
 		        	    	  Intent goLogin = new Intent(Settings.this, MainActivity.class);
-		        	    	  goLogin.putExtra("logging_out", true);
+		        	    	  ((ThisApplication)getApplicationContext()).setUsername(null);
 		        	    	  goLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					          Settings.this.startActivity(goLogin);
 					          finish();

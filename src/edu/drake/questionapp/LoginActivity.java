@@ -1,5 +1,14 @@
 package edu.drake.questionapp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+import java.util.Vector;
+
+import com.jcraft.jsch.*;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
+
 import utilities.*;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -28,7 +37,7 @@ public class LoginActivity extends Activity
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world", "test@test.com:test", "a@a:aaaa" };
+		"foo@example.com:hello", "bar@example.com:world", "test@test.com:test", "a@a:aaaa" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -64,17 +73,17 @@ public class LoginActivity extends Activity
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
+		.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int id,
+					KeyEvent keyEvent) {
+				if (id == R.id.login || id == EditorInfo.IME_NULL) {
+					attemptLogin();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
@@ -178,25 +187,25 @@ public class LoginActivity extends Activity
 
 			mLoginStatusView.setVisibility(View.VISIBLE);
 			mLoginStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
-						}
-					});
+			.alpha(show ? 1 : 0)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginStatusView.setVisibility(show ? View.VISIBLE
+							: View.GONE);
+				}
+			});
 
 			mLoginFormView.setVisibility(View.VISIBLE);
 			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
+			.alpha(show ? 0 : 1)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginFormView.setVisibility(show ? View.GONE
+							: View.VISIBLE);
+				}
+			});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
@@ -213,26 +222,44 @@ public class LoginActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			// TODO: attempt authentication against a network service.
+			// attempt authentication against the drake server !!
+
+			JSch jsch = new JSch();
+			String user="asapp";
+			String host="artsci.drake.edu";
+			String pass="9Gj24!L6c848FG$";
+			int port=22;
 
 			try
 			{
-				// Simulate network access.
-				Thread.sleep(1000);
-			}
-			catch (InterruptedException e)
-			{
-				return false;
-			}
-
-			for (String credential : DUMMY_CREDENTIALS)
-			{
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail))
+				Session session=jsch.getSession(user, host, port);
+				JSch.setConfig("StrictHostKeyChecking", "no");
+				session.setPassword(pass);
+				session.connect();
+				Channel channel=session.openChannel("sftp");
+				channel.connect();
+				ChannelSftp c=(ChannelSftp)channel;
+				try
 				{
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
+					c.cd("WhatWould");
+					InputStream is = c.get("userinfo.txt");
+					Scanner scanny = new Scanner(is);
+					String[] creds;
+					while(scanny.hasNext())
+					{
+						creds = scanny.nextLine().split(":");
+						if(creds[0].equals(mEmail)) return creds[1].equals(mPassword);
+					}
+					
 				}
+				catch(SftpException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			catch(JSchException e)
+			{
+				e.printStackTrace();
 			}
 
 			// TODO: register the new account here.
@@ -250,13 +277,13 @@ public class LoginActivity extends Activity
 				// successful login... so start main activity
 				((ThisApplication) getApplication()).setUsername(mEmail);
 				Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        		startActivity(intent);
-        		finish();
+				startActivity(intent);
+				finish();
 			}
 			else
 			{
 				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}
