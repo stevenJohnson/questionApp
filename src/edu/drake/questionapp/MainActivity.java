@@ -35,8 +35,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	ViewPager mViewPager;
 	PhotoFragment piFrag;
-	
-	// testing !
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
