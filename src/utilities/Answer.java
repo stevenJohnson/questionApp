@@ -7,8 +7,6 @@ public class Answer
 	private int questionID;
 	private String theAnswer;
 	private int ups;
-	private int downs;
-	private Answerer answeredAs;
 	
 	// constructors
 	public Answer() // don't use me
@@ -16,13 +14,12 @@ public class Answer
 		answerID = -1;
 	}
 	
-	public Answer(String a, Answerer b, int q)
+	public Answer(String a, int q)
 	{
 		// answer id obtained for insertion
 		questionID = q;
 		theAnswer = a;
-		ups = downs = 0;
-		answeredAs = b;
+		ups = 0;
 	}
 	
 	public int getAnswerID()
@@ -43,15 +40,5 @@ public class Answer
 	public int getUps()
 	{
 		return ups;
-	}
-	
-	public int getDowns()
-	{
-		return downs;
-	}
-	
-	public Answerer getAnswerer()
-	{
-		return answeredAs;
 	}
 }

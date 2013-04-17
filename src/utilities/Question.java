@@ -1,15 +1,12 @@
 package utilities;
 
-import java.util.Set;
-
 public class Question
 {
 	// fields
 	private int questionID;
 	private String theQuestion;
 	private int ups;
-	private int downs;
-	private Set<Answerer> answerers;
+	private Answerer answerer;
 	
 	// constructors
 	public Question() // don't use me
@@ -17,12 +14,12 @@ public class Question
 		questionID = -1;
 	}
 	
-	public Question(String q, Set<Answerer> a)
+	public Question(String q, Answerer a)
 	{
 		// questionID is generated when inserting to the database, will be returned (more to add)
 		theQuestion = q;
-		ups = downs = 0;
-		answerers = a;
+		ups = 0;
+		answerer = a;
 	}
 	
 	// methods
@@ -41,13 +38,8 @@ public class Question
 		return ups;
 	}
 	
-	public int getDowns()
+	public Answerer getAnswerers()
 	{
-		return downs;
-	}
-	
-	public Set<Answerer> getAnswerers()
-	{
-		return answerers;
+		return answerer;
 	}
 }
