@@ -37,6 +37,6 @@
         android:layout_centerVertical="true"
         android:ems="10"
         android:hint="question ???"
-        android:inputType="textMultiLine" />
+        android:inputType="text" />
 
 </RelativeLayout>

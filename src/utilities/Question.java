@@ -15,12 +15,12 @@ public class Question
 		questionID = -1;
 	}
 	
-	public Question(String q, Answerer a, String use)
+	public Question(String q, int a, String use)
 	{
 		// questionID is generated when inserting to the database, will be returned (more to add)
 		theQuestion = q;
 		ups = 0;
-		answerer = a;
+		answerer = Answerer.values()[a]; // todo::: check for bounds !!!!
 		user = use;
 	}
 	
