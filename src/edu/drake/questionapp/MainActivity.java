@@ -115,6 +115,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			Intent intentSearch = new Intent(this,Search.class);
 			startActivity(intentSearch);
 			return true;
+		case R.id.compose:
+			Intent newQ = new Intent(this, NewQuestion.class);
+			startActivity(newQ);
+			return true;
 		default: 	 
 			return super.onOptionsItemSelected(item); 	 
 		}
