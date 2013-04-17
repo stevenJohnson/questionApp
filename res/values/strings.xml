@@ -19,5 +19,6 @@
     <string name="title_activity_search">Search</string>
     <string name="title_activity_answer">AnswerActivity</string>
     <string name="title_activity_new_question">NewQuestion</string>
+    <string name="title_activity_temp_question">TempQuestionActivity</string>
 
 </resources>

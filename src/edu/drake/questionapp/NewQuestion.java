@@ -14,10 +14,9 @@ public class NewQuestion extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_question);
-		/*
+		
 		ListView listView = (ListView) findViewById(R.id.expandableListView1);
 		listView.setAdapter(new PhotoImageAdapter(listView.getContext()));
-		*/
 	}
 
 	@Override

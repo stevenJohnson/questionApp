@@ -3,9 +3,10 @@
     package="edu.drake.questionapp"
     android:versionCode="1"
     android:versionName="1.0" >
-    
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>T
 
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+T
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
@@ -69,6 +70,10 @@
         <activity
             android:name="edu.drake.questionapp.NewQuestion"
             android:label="@string/title_activity_new_question" >
+        </activity>
+        <activity
+            android:name="edu.drake.questionapp.TempQuestionActivity"
+            android:label="@string/title_activity_temp_question" >
         </activity>
     </application>
 

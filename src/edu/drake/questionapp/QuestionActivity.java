@@ -24,7 +24,7 @@ public class QuestionActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.listView1);
 		listView.setAdapter(new PhotoImageAdapter(listView.getContext()));
 		
-		button = (Button) findViewById(R.id.button1); 
+		button = (Button) findViewById(R.id.submit); 
 		button.setOnClickListener(new OnClickListener() { 
 			@Override
 			public void onClick(View v) {

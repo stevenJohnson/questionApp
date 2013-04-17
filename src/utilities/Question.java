@@ -7,6 +7,7 @@ public class Question
 	private String theQuestion;
 	private int ups;
 	private Answerer answerer;
+	private String user;
 	
 	// constructors
 	public Question() // don't use me
@@ -14,12 +15,13 @@ public class Question
 		questionID = -1;
 	}
 	
-	public Question(String q, Answerer a)
+	public Question(String q, Answerer a, String use)
 	{
 		// questionID is generated when inserting to the database, will be returned (more to add)
 		theQuestion = q;
 		ups = 0;
 		answerer = a;
+		user = use;
 	}
 	
 	// methods
@@ -41,5 +43,10 @@ public class Question
 	public Answerer getAnswerers()
 	{
 		return answerer;
+	}
+	
+	public String getUser()
+	{
+		return user;
 	}
 }

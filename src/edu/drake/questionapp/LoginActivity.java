@@ -248,9 +248,14 @@ public class LoginActivity extends Activity
 					while(scanny.hasNext())
 					{
 						creds = scanny.nextLine().split(":");
-						if(creds[0].equals(mEmail)) return creds[1].equals(mPassword);
+						if(creds[0].equals(mEmail)) 
+						{
+							session.disconnect();
+							c.disconnect();
+							return creds[1].equals(mPassword);
+						}
 					}
-					
+
 				}
 				catch(SftpException e)
 				{

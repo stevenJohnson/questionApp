@@ -116,7 +116,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			startActivity(intentSearch);
 			return true;
 		case R.id.compose:
-			Intent newQ = new Intent(this, NewQuestion.class);
+			// todo ::: use once new question is actually implemented...
+			//Intent newQ = new Intent(this, NewQuestion.class);
+			
+			Intent newQ = new Intent(this, TempQuestionActivity.class);
 			startActivity(newQ);
 			return true;
 		default: 	 
