@@ -20,7 +20,7 @@
         android:inputType="textMultiLine" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/needaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/personid"
@@ -32,7 +32,7 @@
         android:id="@+id/expandableListView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/needaccount"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp" >
     </ExpandableListView>

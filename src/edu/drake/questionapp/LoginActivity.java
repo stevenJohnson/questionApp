@@ -1,13 +1,6 @@
 package edu.drake.questionapp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
-import java.util.Vector;
-
-import com.jcraft.jsch.*;
-import com.jcraft.jsch.ChannelSftp.LsEntry;
+import database.dbmethods;
 
 import utilities.*;
 import android.animation.Animator;
@@ -32,13 +25,6 @@ import android.widget.TextView;
  */
 public class LoginActivity extends Activity
 {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-		"foo@example.com:hello", "bar@example.com:world", "test@test.com:test", "a@a:aaaa" };
-
 	/**
 	 * The default email to populate the email field with.
 	 */
@@ -94,6 +80,14 @@ public class LoginActivity extends Activity
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
+					}
+				});
+		
+		findViewById(R.id.signup).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						//todo:: make this load the signup form!! (to be created...)
 					}
 				});
 	}
@@ -222,53 +216,7 @@ public class LoginActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			// attempt authentication against the drake server !!
-
-			JSch jsch = new JSch();
-			String user="asapp";
-			String host="artsci.drake.edu";
-			String pass="9Gj24!L6c848FG$";
-			int port=22;
-
-			try
-			{
-				Session session=jsch.getSession(user, host, port);
-				JSch.setConfig("StrictHostKeyChecking", "no");
-				session.setPassword(pass);
-				session.connect();
-				Channel channel=session.openChannel("sftp");
-				channel.connect();
-				ChannelSftp c=(ChannelSftp)channel;
-				try
-				{
-					c.cd("WhatWould");
-					InputStream is = c.get("userinfo.txt");
-					Scanner scanny = new Scanner(is);
-					String[] creds;
-					while(scanny.hasNext())
-					{
-						creds = scanny.nextLine().split(":");
-						if(creds[0].equals(mEmail)) 
-						{
-							session.disconnect();
-							c.disconnect();
-							return creds[1].equals(mPassword);
-						}
-					}
-
-				}
-				catch(SftpException e)
-				{
-					e.printStackTrace();
-				}
-			}
-			catch(JSchException e)
-			{
-				e.printStackTrace();
-			}
-
-			// TODO: register the new account here.
-			return false;
+			return dbmethods.loginPls(mEmail, mPassword);
 		}
 
 		@Override

@@ -1,26 +1,12 @@
 package edu.drake.questionapp;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.util.Scanner;
-import java.util.Vector;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-
 import database.dbmethods;
 
-import utilities.IdConverter;
 import utilities.Question;
 import utilities.ThisApplication;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;

@@ -15,7 +15,9 @@ import android.util.Log;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 public class dbmethods
 {
@@ -127,5 +129,52 @@ public class dbmethods
 		}
 
 		return true;
+	}
+
+	public static boolean loginPls(String email, String pass)
+	{
+		// attempt authentication against the drake server !!
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				InputStream is = c.get("userinfo.txt");
+				Scanner scanny = new Scanner(is);
+				String[] creds;
+				while(scanny.hasNext())
+				{
+					creds = scanny.nextLine().split(":");
+					if(creds[0].equals(email)) 
+					{
+						session.disconnect();
+						c.disconnect();
+						return creds[1].equals(pass);
+					}
+				}
+			}
+			catch(SftpException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		catch(JSchException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

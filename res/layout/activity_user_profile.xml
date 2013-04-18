@@ -18,7 +18,7 @@
         android:layout_marginTop="25dp" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/needaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/quickContactBadge1"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/textView1"
+        android:layout_alignRight="@+id/needaccount"
         android:layout_below="@+id/textView2"
         android:text="Follow" />
 

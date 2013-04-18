@@ -10,7 +10,7 @@
     tools:context=".QuestionActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/needaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
@@ -28,9 +28,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/needaccount"
         android:layout_alignRight="@+id/listView1"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/needaccount"
         android:layout_marginTop="18dp"
         android:text="Question placeholder text"
         android:textAppearance="?android:attr/textAppearanceLarge" />

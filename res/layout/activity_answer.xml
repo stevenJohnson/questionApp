@@ -15,7 +15,7 @@
         android:text="@string/hello_world" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/needaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"
@@ -28,15 +28,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/needaccount"
         android:text="Post answer" />
 
     <EditText
         android:id="@+id/personid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignRight="@+id/textView1"
+        android:layout_alignLeft="@+id/needaccount"
+        android:layout_alignRight="@+id/needaccount"
         android:layout_below="@+id/submit"
         android:ems="10"
         android:inputType="textMultiLine" />
