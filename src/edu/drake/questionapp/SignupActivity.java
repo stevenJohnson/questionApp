@@ -5,6 +5,8 @@ import database.dbmethods;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -36,15 +38,30 @@ public class SignupActivity extends Activity {
 						if(userName.getText().toString().length() > 0 && firstName.getText().toString().length() > 0 &&
 								pass1.getText().toString().length() > 0 && pass2.getText().toString().length() > 0)
 						{
-							if(pass1.getText().toString().equals(pass2.getText().toString()))
+							if(pass1.getText().toString().length() > 3)
 							{
-								attemptSignup();
-								Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
+								if(userName.getText().toString().contains("@"))
+								{
+									if(pass1.getText().toString().equals(pass2.getText().toString()))
+									{
+										attemptSignup();
+									}
+									else
+									{
+										// password and confirm pass don't match..
+										Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_LONG).show();
+									}
+								}
+								else
+								{
+									// no @ sign in email
+									Toast.makeText(getApplicationContext(), "Invalid email address.", Toast.LENGTH_LONG).show();
+								}
 							}
 							else
 							{
-								// password and confirm pass don't match..
-								Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_LONG).show();
+								// da password ain't long nuff
+								Toast.makeText(getApplicationContext(), "Password must be at least 4 characters long.", Toast.LENGTH_LONG).show();
 							}
 						}
 						else
@@ -62,18 +79,18 @@ public class SignupActivity extends Activity {
 		getMenuInflater().inflate(R.menu.signup, menu);
 		return true;
 	}
-	
+
 	private void attemptSignup()
 	{
 		UserSignupTask t = new UserSignupTask();
 		t.execute();
 	}
-	
+
 	public class UserSignupTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			return dbmethods.signupPls(userName.getText().toString(), firstName.getText().toString(), pass1.getText().toString());
+			return dbmethods.signupPls(userName.getText().toString(), firstName.getText().toString(), pass1.getText().toString(), getApplicationContext());
 		}
 
 		@Override
@@ -82,9 +99,18 @@ public class SignupActivity extends Activity {
 			if (success)
 			{
 				// successful signup... so tell user and finish
-				
+
 				// TODO ::: create a signup confirmed dialog fragment and display here...
-				finish();
+				new AlertDialog.Builder(SignupActivity.this)
+				.setTitle("Account Created")
+				.setMessage("Congratulations! Your account has been created.")
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setPositiveButton("Return to login screen", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int whichButton)
+					{
+						finish();
+					}}).show();
 			}
 			else
 			{

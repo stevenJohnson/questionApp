@@ -2,6 +2,7 @@ package database;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
@@ -178,9 +179,123 @@ public class dbmethods
 		return false;
 	}
 	
-	public static boolean signupPls(String user, String name, String password)
+	public static boolean signupPls(String userName, String name, String password, Context context)
 	{
 		// make sure that user isn't already a user, else sign up
-		return true;
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				InputStream is = c.get("userinfo.txt");
+				Scanner scanny = new Scanner(is);
+				String[] creds;
+				while(scanny.hasNext())
+				{
+					creds = scanny.nextLine().split(":");
+					if(creds[0].equals(userName)) 
+					{
+						// the email already exists, so deny login
+						session.disconnect();
+						c.disconnect();
+						scanny.close();
+						return false;
+					}
+				}
+				// if we've made it past the while loop, the email is not already an account so sign em up !
+				
+				// release old imput stream and scanner
+				is.close();
+				scanny.close();
+				
+				is = c.get("userinfo.txt");
+				scanny = new Scanner(is);
+				
+				// make a new file that is a copy of server's userinfo.txt, and add this user
+				// yes, this has obvious security flaws, but it is merely for proof of concept
+				String filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+				File file = new File(filepath);
+				file.createNewFile();
+
+				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
+				
+				String s = "";
+				while(scanny.hasNext())
+				{
+					s = scanny.nextLine();
+					writer.write(s);
+					writer.write(System.getProperty("line.separator"));
+				}
+				scanny.close();
+				is.close();
+
+				// write new user
+				writer.write(userName + ":" + password);
+
+				writer.flush();
+				writer.close();
+
+				// put back the new file
+				c.rm("userinfo.txt");
+				c.put(filepath, "userinfo.txt");
+				
+				// create a directory for this user in Users directory
+				c.cd("Users");
+				c.mkdir(userName);
+				
+				// create a questions.txt, answers.txt, name.txt for this new user
+				c.cd(userName);
+				
+				File filey = new File(filepath);
+				filey.createNewFile();
+				
+				OutputStreamWriter writery = new OutputStreamWriter(new FileOutputStream(filey));
+				
+				// blank file for questions and answers
+				c.put(filepath, "questions.txt");
+				c.put(filepath, "answers.txt");
+				
+				// add name for name.txt
+				writery.write(name);
+				writery.flush();
+				writery.close();
+				
+				c.put(filepath, "name.txt");
+				
+				return true;
+			}
+			catch(SftpException e)
+			{
+				e.printStackTrace();
+			} 
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		catch(JSchException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			// ensure server's userinfo.txt is deleted locally
+			File file = new File(context.getFilesDir().getPath().toString() + "/tmp.txt");
+			file.delete();
+		}
+		return false;
 	}
 }
