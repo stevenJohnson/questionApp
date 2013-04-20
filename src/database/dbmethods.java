@@ -177,4 +177,10 @@ public class dbmethods
 		}
 		return false;
 	}
+	
+	public static boolean signupPls(String user, String name, String password)
+	{
+		// make sure that user isn't already a user, else sign up
+		return true;
+	}
 }

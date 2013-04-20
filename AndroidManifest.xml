@@ -75,6 +75,10 @@ T
             android:name="edu.drake.questionapp.TempQuestionActivity"
             android:label="@string/title_activity_temp_question" >
         </activity>
+        <activity
+            android:name="edu.drake.questionapp.SignupActivity"
+            android:label="@string/title_activity_signup" >
+        </activity>
     </application>
 
 </manifest>

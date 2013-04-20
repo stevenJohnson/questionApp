@@ -87,7 +87,8 @@ public class LoginActivity extends Activity
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						//todo:: make this load the signup form!! (to be created...)
+						Intent intent = new Intent(getBaseContext(), SignupActivity.class);
+						startActivity(intent);
 					}
 				});
 	}

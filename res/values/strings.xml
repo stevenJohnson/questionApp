@@ -20,5 +20,9 @@
     <string name="title_activity_answer">AnswerActivity</string>
     <string name="title_activity_new_question">NewQuestion</string>
     <string name="title_activity_temp_question">TempQuestionActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_first_name">First Name</string>
+    <string name="signup_sign_up">Sign Up!</string>
 
 </resources>
