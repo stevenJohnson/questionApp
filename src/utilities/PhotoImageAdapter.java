@@ -89,6 +89,7 @@ public class PhotoImageAdapter extends BaseAdapter
 		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
 		wm.getDefaultDisplay().getMetrics(displayMetrics);
 		int imageDims = displayMetrics.widthPixels * 15 / 48;
+		int actualImageDims = imageDims -30;
 		
 		if (convertView == null)
 		{			
@@ -114,10 +115,10 @@ public class PhotoImageAdapter extends BaseAdapter
 		imageView.setPadding(8, 8, 8, 8);
 		
 		TextView textView = (TextView) grid.findViewById(R.id.textpart);
-		imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), imageDims, imageDims));
+		imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), actualImageDims, actualImageDims));
 		textView.setText(utilities.Answerer.values()[position].toString());
 		
-		grid.setLayoutParams(new GridView.LayoutParams(imageDims, imageDims));
+		grid.setLayoutParams(new GridView.LayoutParams(imageDims, imageDims + 100));
 		grid.setPadding(8, 8, 8, 8);
 		return grid;
 	}

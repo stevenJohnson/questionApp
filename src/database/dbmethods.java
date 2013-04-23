@@ -8,8 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.Scanner;
 import java.util.Vector;
 
-import utilities.IdConverter;
-import utilities.Question;
+import utilities.*;
 import android.content.Context;
 import android.util.Log;
 
@@ -297,5 +296,10 @@ public class dbmethods
 			file.delete();
 		}
 		return false;
+	}
+	
+	public static boolean postAnswer(Answer a, Context c)
+	{
+		return true;
 	}
 }

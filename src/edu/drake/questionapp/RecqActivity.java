@@ -29,7 +29,7 @@ public class RecqActivity extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+			Bundle savedInstanceState) {/*
 		super.onCreate(savedInstanceState);
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_recq, container, false);
@@ -69,8 +69,8 @@ public class RecqActivity extends Fragment {
 				startActivity(intent);
 			}
 		});
-		return view;
-		//return new View(getActivity());
+		return view;*/
+		return new View(getActivity());
 	}
 
 }

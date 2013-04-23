@@ -21,7 +21,7 @@ public class QuestionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
 		
-		ListView listView = (ListView) findViewById(R.id.listView1);
+		ListView listView = (ListView) findViewById(R.id.topQlist);
 		listView.setAdapter(new PhotoImageAdapter(listView.getContext()));
 		
 		button = (Button) findViewById(R.id.submit); 
