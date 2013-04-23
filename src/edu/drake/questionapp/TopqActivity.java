@@ -3,7 +3,8 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import utilities.PhotoImageAdapter;
+import utilities.QListAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -29,11 +30,11 @@ public class TopqActivity extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		/*super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_topq, container, false);
 		
-		final ListView listview = (ListView) findViewById(R.id.listView1);
+		final ListView listview = (ListView) getView().findViewById(R.id.listView1);
 	    String[] names = new String[] { "Bob", "Dan", "Andy",
 	        "Ross", "Steven", "McKenzie", "Megan", "Joe",
 	        "Lisa", "Big Mclarge Huge" };
@@ -51,11 +52,11 @@ public class TopqActivity extends Fragment {
 	    	    map.put("question", questions[i]);
 	    	    list.add(map);
 	    }
-	    NewAdapter adapter = new QListAdapter(this, list);
+	    Context context = getActivity().getApplicationContext();
+	    QListAdapter adapter = new QListAdapter(context, list);
 	    listview.setAdapter(adapter);
-	  }
 		
-		listView.setOnItemClickListener(new OnItemClickListener()
+		listview.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> arg1, View arg2, int pos, long arg3)
@@ -67,8 +68,8 @@ public class TopqActivity extends Fragment {
 				startActivity(intent);
 			}
 		});
-		return view;*/
-		return new View(getActivity());
+		return view;
+		//return new View(getActivity());
 	}
 
 }
