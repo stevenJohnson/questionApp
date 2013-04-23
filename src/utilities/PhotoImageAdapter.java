@@ -1,16 +1,19 @@
 package utilities;
 
+import edu.drake.questionapp.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class PhotoImageAdapter extends BaseAdapter
 {	
@@ -59,16 +62,19 @@ public class PhotoImageAdapter extends BaseAdapter
 		mContext = c;
 	}
 
+	@Override
 	public int getCount()
 	{
 		return CategorySorter.getLength();
 	}
 
+	@Override
 	public Object getItem(int position)
 	{
 		return null;
 	}
 
+	@Override
 	public long getItemId(int position)
 	{
 		return 0;
@@ -76,7 +82,8 @@ public class PhotoImageAdapter extends BaseAdapter
 
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		ImageView imageView;
+		//ImageView imageView;
+		View grid;
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
@@ -85,18 +92,33 @@ public class PhotoImageAdapter extends BaseAdapter
 		
 		if (convertView == null)
 		{			
-			imageView = new ImageView(mContext);
+			/*imageView = new ImageView(mContext);
 			imageView.setLayoutParams(new GridView.LayoutParams(imageDims, imageDims));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imageView.setPadding(8, 8, 8, 8);
+			imageView.setPadding(8, 8, 8, 8);*/
+			
+			grid = new View(mContext);
+			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+			grid = inflater.inflate(R.layout.categorygrid, parent, false);
 		} 
 		else
 		{
-			imageView = (ImageView) convertView;
+			//imageView = (ImageView) convertView;
+			grid = (View)convertView;
 		}
-
-		imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), imageDims, imageDims));
 		
-		return imageView;
+		//imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), imageDims, imageDims));
+		ImageView imageView = (ImageView) grid.findViewById(R.id.imagepart);
+		
+		//imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+		imageView.setPadding(8, 8, 8, 8);
+		
+		TextView textView = (TextView) grid.findViewById(R.id.textpart);
+		imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), imageDims, imageDims));
+		textView.setText(utilities.Answerer.values()[position].toString());
+		
+		grid.setLayoutParams(new GridView.LayoutParams(imageDims, imageDims));
+		grid.setPadding(8, 8, 8, 8);
+		return grid;
 	}
 }

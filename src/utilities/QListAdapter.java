@@ -1,7 +1,9 @@
-package edu.drake.questionapp;
+package utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import edu.drake.questionapp.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
