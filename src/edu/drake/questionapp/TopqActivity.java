@@ -1,5 +1,8 @@
 package edu.drake.questionapp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import utilities.PhotoImageAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +32,29 @@ public class TopqActivity extends Fragment {
 		super.onCreate(savedInstanceState);
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_topq, container, false);
-		ListView listView = (ListView) view.findViewById(R.id.listView1);
-		listView.setAdapter(new PhotoImageAdapter(view.getContext()));
+		
+		final ListView listview = (ListView) findViewById(R.id.listView1);
+	    String[] names = new String[] { "Bob", "Dan", "Andy",
+	        "Ross", "Steven", "McKenzie", "Megan", "Joe",
+	        "Lisa", "Big Mclarge Huge" };
+	    String[] questions = new String[] { "question one", "question two", 
+	    		"question three",	"question four", "question five", "question six", 
+	    		"question seven", "question eight", "question nine", "question ten"};
+	    //int[] answers = new int[] {3,4,5,1,12,200,64,44,25,9};
+	    //int[] likes = new int[] {44,2,0,0,12,9,105,22,50,1};
+
+	    final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	    HashMap<String, String> map;
+	    for (int i = 0; i < names.length; ++i) {
+	    	 map = new HashMap<String, String>();
+	    	    map.put("name", names[i]);
+	    	    map.put("question", questions[i]);
+	    	    list.add(map);
+	    }
+	    NewAdapter adapter = new QListAdapter(this, list);
+	    listview.setAdapter(adapter);
+	  }
+		
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
