@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -366,11 +367,11 @@ public class dbmethods
 					writer.write(s);
 				}
 				writer.write(questionID + ":" + answerID);
-				
+
 				writer.flush();
 				writer.close();
 				is.close();
-				
+
 				c.put(filepath, "answers.txt");
 			}
 			catch(Exception ex)
@@ -386,9 +387,73 @@ public class dbmethods
 		return true;
 	}
 
-	public static Question getQuestion(int questionID)
+	public static Question getQuestions(int questionID)
 	{
+		return getQuestions(new ArrayList<Integer>(questionID)).get(0);
+	}
+
+	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs)
+	{
+		ArrayList<Question> retval = new ArrayList<Question>();
+		String theQuestion = "";
+		int ups = 0;
+		int answerer = 0;
+		String username = "";
 		
-		return new Question();
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Questions");
+
+				for(int i = 0; i < questionIDs.size(); i++)
+				{
+					c.cd(utilities.IdConverter.intToStringId(questionIDs.get(i)));
+
+					InputStream is = c.get("question.txt");
+					Scanner scanny = new Scanner(is);
+					theQuestion = scanny.nextLine();
+					answerer = scanny.nextInt();
+					ups = scanny.nextInt();
+					username = scanny.nextLine();
+					
+					retval.add(new Question(theQuestion, answerer, ups, username));
+					
+					is.close();
+					scanny.close();
+					
+					c.cd("..");
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.d("postAnswer", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.d("postAnswer", ex.getMessage());
+		}
+
+		return retval;
+	}
+	
+	public static ArrayList<Question> getTopQuestions(int number)
+	{
+		return new ArrayList<Question>();
 	}
 }

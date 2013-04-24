@@ -24,6 +24,14 @@ public class Question
 		user = use;
 	}
 	
+	public Question(String q, int up, int a, String use)
+	{
+		theQuestion = q;
+		ups = up;
+		answerer = Answerer.values()[a];
+		user = use;
+	}
+	
 	// methods
 	public int getQuestionID()
 	{

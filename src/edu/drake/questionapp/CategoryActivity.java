@@ -20,7 +20,7 @@ public class CategoryActivity extends Activity
 
 		TextView tv = (TextView) findViewById(R.id.categoryQueryText);
 
-		tv.setText("questions from " + Answerer.values()[CategorySorter.getPosition(personQuery)] + "\n    here is who is logged in ::: " + ((ThisApplication)getApplicationContext()).getUsername());
+		tv.setText("questions from " + CategorySorter.getCharacterName(CategorySorter.getPosition(personQuery)) + "\n    here is who is logged in ::: " + ((ThisApplication)getApplicationContext()).getUsername());
 	}
 
 	@Override

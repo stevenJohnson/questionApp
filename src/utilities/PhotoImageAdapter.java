@@ -116,7 +116,7 @@ public class PhotoImageAdapter extends BaseAdapter
 		
 		TextView textView = (TextView) grid.findViewById(R.id.textpart);
 		imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), CategorySorter.getDrawable(CategorySorter.getPosition(position)), actualImageDims, actualImageDims));
-		textView.setText(utilities.Answerer.values()[position].toString());
+		textView.setText(CategorySorter.getCharacterName(position));
 		
 		grid.setLayoutParams(new GridView.LayoutParams(imageDims, imageDims + 100));
 		grid.setPadding(8, 8, 8, 8);
