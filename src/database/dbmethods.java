@@ -177,7 +177,7 @@ public class dbmethods
 		}
 		return false;
 	}
-	
+
 	public static boolean signupPls(String userName, String name, String password, Context context)
 	{
 		// make sure that user isn't already a user, else sign up
@@ -215,14 +215,14 @@ public class dbmethods
 					}
 				}
 				// if we've made it past the while loop, the email is not already an account so sign em up !
-				
+
 				// release old imput stream and scanner
 				is.close();
 				scanny.close();
-				
+
 				is = c.get("userinfo.txt");
 				scanny = new Scanner(is);
-				
+
 				// make a new file that is a copy of server's userinfo.txt, and add this user
 				// yes, this has obvious security flaws, but it is merely for proof of concept
 				String filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
@@ -230,7 +230,7 @@ public class dbmethods
 				file.createNewFile();
 
 				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
-				
+
 				String s = "";
 				while(scanny.hasNext())
 				{
@@ -250,30 +250,30 @@ public class dbmethods
 				// put back the new file
 				c.rm("userinfo.txt");
 				c.put(filepath, "userinfo.txt");
-				
+
 				// create a directory for this user in Users directory
 				c.cd("Users");
 				c.mkdir(userName);
-				
+
 				// create a questions.txt, answers.txt, name.txt for this new user
 				c.cd(userName);
-				
+
 				File filey = new File(filepath);
 				filey.createNewFile();
-				
+
 				OutputStreamWriter writery = new OutputStreamWriter(new FileOutputStream(filey));
-				
+
 				// blank file for questions and answers
 				c.put(filepath, "questions.txt");
 				c.put(filepath, "answers.txt");
-				
+
 				// add name for name.txt
 				writery.write(name);
 				writery.flush();
 				writery.close();
-				
+
 				c.put(filepath, "name.txt");
-				
+
 				return true;
 			}
 			catch(SftpException e)
@@ -297,9 +297,98 @@ public class dbmethods
 		}
 		return false;
 	}
-	
-	public static boolean postAnswer(Answer a, Context c)
+
+	// TODO::: test this method once we have a method to display questions and answers
+	public static boolean postAnswer(Answer a, Context context)
 	{
+		String questionID = utilities.IdConverter.intToStringId(a.getQuestionID());
+
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Questions");
+				c.cd(questionID);
+				Vector v = c.ls("Answers");
+				c.cd("Answers");
+
+				// one for ., one for .., so subtract two since we index from 0
+				int i = v.size() - 2;
+				String answerID = IdConverter.intToStringId(i);
+
+				String filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+				File file = new File(filepath);
+				file.createNewFile();
+
+				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
+
+				writer.write(a.getAnswer());
+				writer.write(System.getProperty("line.separator"));
+				writer.write(((ThisApplication)context).getUsername());
+				writer.write(System.getProperty("line.separator"));
+				writer.write("0"); // likes
+
+				writer.flush();
+				writer.close();
+
+				c.put(filepath, answerID + ".txt");
+
+				c.cd("../../..");
+				c.cd("Users");
+				c.cd(((ThisApplication)context).getUsername());
+
+				// add this new questionID:answerID to the user's answer.txt
+				file = new File(filepath);
+				file.createNewFile();
+
+				writer = new OutputStreamWriter(new FileOutputStream(file));
+
+				InputStream is = c.get("answers.txt");
+				Scanner scanny = new Scanner(is);
+				String s = "";
+				while(scanny.hasNext())
+				{
+					s = scanny.nextLine();
+					writer.write(s);
+				}
+				writer.write(questionID + ":" + answerID);
+				
+				writer.flush();
+				writer.close();
+				is.close();
+				
+				c.put(filepath, "answers.txt");
+			}
+			catch(Exception ex)
+			{
+				Log.d("postAnswer", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.d("postAnswer", ex.getMessage());
+		}
+
 		return true;
+	}
+
+	public static Question getQuestion(int questionID)
+	{
+		
+		return new Question();
 	}
 }
