@@ -29,12 +29,12 @@ public class RecqActivity extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {/*
+			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_recq, container, false);
 		
-		final ListView listview = (ListView) getView().findViewById(R.id.listView1);
+		final ListView listview = (ListView) view.findViewById(R.id.topQlist);
 	    String[] names = new String[] { "Dan", "Bob", "Ross",
 	        "Andy", "Steven", "McKenzie", "Megan", "Joe",
 	        "Lisa", "Big Mclarge Huge" };
@@ -69,8 +69,7 @@ public class RecqActivity extends Fragment {
 				startActivity(intent);
 			}
 		});
-		return view;*/
-		return new View(getActivity());
+		return view;
 	}
 
 }
