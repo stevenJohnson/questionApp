@@ -1,6 +1,9 @@
 package edu.drake.questionapp;
 
-import utilities.PhotoImageAdapter;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import utilities.AListAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,8 +24,21 @@ public class QuestionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
 		
-		ListView listView = (ListView) findViewById(R.id.topQlist);
-		listView.setAdapter(new PhotoImageAdapter(listView.getContext()));
+		final ListView listview = (ListView) findViewById(R.id.AList);
+	    String[] names = new String[] {"Ross", "Steven", "McKenzie", "Megan", "Joe"};
+	    String[] answers = new String[] { "answer one", "answer two", 
+	    		"answer three",	"answer four", "answer five"};
+	    
+	    final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	    HashMap<String, String> map;
+	    for (int i = 0; i < names.length; ++i) {
+	    	 map = new HashMap<String, String>();
+	    	    map.put("name", names[i]);
+	    	    map.put("answer", answers[i]);
+	    	    list.add(map);
+	    }
+	    AListAdapter adapter = new AListAdapter(this, list);
+	    listview.setAdapter(adapter);
 		
 		button = (Button) findViewById(R.id.submit); 
 		button.setOnClickListener(new OnClickListener() { 
