@@ -8,7 +8,7 @@ public class CategorySorter
 	{
 		if(Answerer.Legit.ordinal() == answererOrdinal)
 		{
-			return "asdf"; // we're to delete this
+			return "(to be deleted)"; // we're to delete this
 		}
 		else if(Answerer.Anyone.ordinal() == answererOrdinal)
 		{

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -399,7 +401,7 @@ public class dbmethods
 		int ups = 0;
 		int answerer = 0;
 		String username = "";
-		
+
 		JSch jsch = new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -430,12 +432,12 @@ public class dbmethods
 					answerer = scanny.nextInt();
 					ups = scanny.nextInt();
 					username = scanny.nextLine();
-					
+
 					retval.add(new Question(theQuestion, answerer, ups, username));
-					
+
 					is.close();
 					scanny.close();
-					
+
 					c.cd("..");
 				}
 			}
@@ -451,9 +453,73 @@ public class dbmethods
 
 		return retval;
 	}
-	
+
 	public static ArrayList<Question> getTopQuestions(int number)
 	{
+		// dictionary of likes, questionid
+		HashMap<Integer, Integer> retval = new HashMap<Integer, Integer>();
+		int minLikes = 0;
+		
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				
+				// obtain vector from ls simply to count the number of directories
+				Vector v = c.ls("Questions");
+
+				c.cd("Questions");
+				// get question id
+
+				// one for ., one for .., so subtract two since we index from 0
+				// i is the number of questions total
+				int totalQuestions = v.size() - 2;
+				
+				if(number > totalQuestions)				
+				{
+					// return all questions
+				}
+				
+				// grab first number questions
+				for(int i = 0; i < number; i++)
+				{
+					
+				}
+				
+				// iterate through rest of questions, adding to retval if likes is > minLikes
+				// while removing old questionID with minLikes and updating minLikes
+				for(int i = number; i < totalQuestions; i++)
+				{
+					
+				}
+				
+				// get actual questions
+				return getQuestions(new ArrayList<Integer>(retval.values()));
+			}
+			catch(Exception ex)
+			{
+
+			}
+		}
+		catch(Exception ex)
+		{
+
+		}
+
 		return new ArrayList<Question>();
 	}
 }
