@@ -20,26 +20,25 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/icon"
-        android:text="TextView" />
+        android:layout_alignLeft="@+id/answer"
+        android:layout_alignParentTop="true"
+        android:text="name" />
 
     <TextView
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/icon"
+        android:layout_below="@+id/name"
         android:layout_toRightOf="@+id/icon"
-        android:text="Large Text"
+        android:text="Answer"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/name"
-        android:layout_alignBottom="@+id/name"
+        android:layout_alignBottom="@+id/icon"
         android:layout_alignParentRight="true"
-        android:text="TextView" />
+        android:text="0 likes" />
 
 </RelativeLayout>

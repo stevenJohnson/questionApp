@@ -13,15 +13,15 @@
         android:id="@+id/needaccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="name" />
 
     <ListView
         android:id="@+id/AList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp" >
+        android:layout_below="@+id/submit"
+        android:layout_centerHorizontal="true" >
+
     </ListView>
 
     <TextView
@@ -29,10 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/needaccount"
-        android:layout_alignRight="@+id/topQlist"
+        android:layout_alignRight="@+id/AList"
         android:layout_below="@+id/needaccount"
         android:layout_marginTop="18dp"
-        android:text="Question placeholder text"
+        android:text="Could you gimme an answer to this question?"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
         android:text="Answer this question" />
 
 </RelativeLayout>

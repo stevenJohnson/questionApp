@@ -12,7 +12,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="name" />
 
     <TextView
         android:id="@+id/needaccount"
@@ -20,16 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"
         android:layout_below="@+id/textView2"
-        android:text="Question placeholder text."
+        android:text="Could you gimme an answer to this question?"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/needaccount"
-        android:text="Post answer" />
 
     <EditText
         android:id="@+id/personid"
@@ -37,8 +29,20 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/needaccount"
         android:layout_alignRight="@+id/needaccount"
-        android:layout_below="@+id/submit"
+        android:layout_below="@+id/needaccount"
         android:ems="10"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:minLines="3" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/personid"
+        android:layout_below="@+id/personid"
+        android:text="Post answer" />
 
 </RelativeLayout>

@@ -22,9 +22,9 @@
         android:id="@+id/personid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/questionfield"
+        android:layout_below="@+id/questionfield"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="74dp"
+        android:layout_marginTop="47dp"
         android:ems="10"
         android:hint="person id"
         android:inputType="number" />
@@ -34,9 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/personid"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="question ???"
-        android:inputType="text" />
+        android:hint="What's your question?"
+        android:inputType="textMultiLine"
+        android:minLines="3" />
 
 </RelativeLayout>
