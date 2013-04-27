@@ -3,9 +3,7 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import utilities.PhotoImageAdapter;
 import utilities.QListAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -60,9 +57,9 @@ public class TopqActivity extends Fragment {
 		    	    list.add(map);
 		    }
 		
-		View view = inflater.inflate(R.layout.fragment_topq, container, false);
+		final View view = inflater.inflate(R.layout.fragment_topq, container, false);
 		ListView listview = (ListView) view.findViewById(R.id.topQlist);
-	    listview.setAdapter(new QListAdapter(getActivity().getApplicationContext(), list));
+	    listview.setAdapter(new QListAdapter(view.getContext(), list));
 	    
 
 		listview.setOnItemClickListener(new OnItemClickListener()
@@ -73,7 +70,7 @@ public class TopqActivity extends Fragment {
 				Log.d(TAG, "" + pos);
 				
 				// start new activity passing the position of the clicked picture to know what to query
-				Intent intent = new Intent(getView().getContext(), QuestionActivity.class);
+				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				startActivity(intent);
 			}
 		});

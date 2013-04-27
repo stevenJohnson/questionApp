@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import utilities.QListAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,7 @@ public class RecqActivity extends Fragment {
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.fragment_recq, container, false);
+		final View view = inflater.inflate(R.layout.fragment_recq, container, false);
 		
 		final ListView listview = (ListView) view.findViewById(R.id.topQlist);
 	    String[] names = new String[] { "Dan", "Bob", "Ross",
@@ -52,8 +51,7 @@ public class RecqActivity extends Fragment {
 	    	    map.put("question", questions[i]);
 	    	    list.add(map);
 	    }
-	    Context context = getActivity().getApplicationContext();
-	    QListAdapter adapter = new QListAdapter(context, list);
+	    QListAdapter adapter = new QListAdapter(view.getContext(), list);
 	    listview.setAdapter(adapter);
 	  
 		
@@ -65,7 +63,7 @@ public class RecqActivity extends Fragment {
 				Log.d(TAG, "" + pos);
 				
 				// start new activity passing the position of the clicked picture to know what to query
-				Intent intent = new Intent(getView().getContext(), QuestionActivity.class);
+				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				startActivity(intent);
 			}
 		});

@@ -30,10 +30,10 @@ public class QListAdapter extends ArrayAdapter<HashMap<String,String>> {
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
-    TextView textViewQ = (TextView) rowView.findViewById(R.id.answers);
+    TextView textViewQ = (TextView) rowView.findViewById(R.id.question);
     ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
     TextView textViewN = (TextView) rowView.findViewById(R.id.name);
-    TextView textViewA = (TextView) rowView.findViewById(R.id.question);
+    TextView textViewA = (TextView) rowView.findViewById(R.id.answers);
     TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
     HashMap<String, String> quesGet = list.get(position);
     textViewQ.setText(quesGet.get("question"));

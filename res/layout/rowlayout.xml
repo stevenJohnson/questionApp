@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/question"
         android:layout_alignParentTop="true"
-        android:text="name" />
+        android:text="name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/question"
@@ -30,8 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_toRightOf="@+id/icon"
-        android:text="Question"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="Question" />
 
     <TextView
         android:id="@+id/answers"
