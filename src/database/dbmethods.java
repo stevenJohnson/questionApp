@@ -457,9 +457,12 @@ public class dbmethods
 	public static ArrayList<Question> getTopQuestions(int number)
 	{
 		// dictionary of likes, questionid
-		HashMap<Integer, Integer> retval = new HashMap<Integer, Integer>();
+		ArrayList<MiniQuestion> retval = new ArrayList<MiniQuestion>();
+		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
+		//HashMap<Integer, Integer> retval = new HashMap<Integer, Integer>();
 		int minLikes = 0;
-		
+
+
 		JSch jsch = new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -478,7 +481,7 @@ public class dbmethods
 			try
 			{
 				c.cd("WhatWould");
-				
+
 				// obtain vector from ls simply to count the number of directories
 				Vector v = c.ls("Questions");
 
@@ -488,38 +491,106 @@ public class dbmethods
 				// one for ., one for .., so subtract two since we index from 0
 				// i is the number of questions total
 				int totalQuestions = v.size() - 2;
-				
+
 				if(number > totalQuestions)				
 				{
 					// return all questions
+					for(int i = 0; i < totalQuestions; i++)
+					{
+						tmpRetval.add(i);
+					}
 				}
-				
-				// grab first number questions
-				for(int i = 0; i < number; i++)
+				else
 				{
+					// grab first number questions
+					int thisQuestionsLikes = 0;
+
+					InputStream is;
+					Scanner scanny;
+					int trash; String garbage;
+
+					for(int i = 0; i < number; i++)
+					{
+						c.cd(utilities.IdConverter.intToStringId(i));
+
+						is = c.get("question.txt");
+						scanny = new Scanner(is);
+						garbage = scanny.nextLine();
+						trash = scanny.nextInt();
+						thisQuestionsLikes = scanny.nextInt();
+
+						scanny.close();
+						is.close();
+
+						retval.add(new MiniQuestion(thisQuestionsLikes, i));
+						c.cd("..");
+					}
 					
+					// set minLikes for the first time
+					minLikes = 9001;
+					for(MiniQuestion m : retval)
+					{
+						if(m.likes < minLikes) minLikes = m.likes;
+					}
+
+					// iterate through rest of questions, adding to retval if likes is > minLikes
+					// while removing old questionID with minLikes and adding
+					for(int i = number; i < totalQuestions; i++)
+					{
+						c.cd(utilities.IdConverter.intToStringId(i));
+
+						is = c.get("question.txt");
+						scanny = new Scanner(is);
+						garbage = scanny.nextLine();
+						trash = scanny.nextInt();
+						thisQuestionsLikes = scanny.nextInt();
+
+						scanny.close();
+						is.close();
+
+						if(thisQuestionsLikes > minLikes)
+						{
+							// remove a question with minLikes number of likes
+							for(MiniQuestion m : retval)
+							{
+								if(m.id == minLikes)
+								{
+									retval.remove(m);
+									break;
+								}
+							}
+
+							// add our new question
+							retval.add(new MiniQuestion(i, thisQuestionsLikes));
+
+							// recompute minLikes
+							minLikes = 9001;
+							for(MiniQuestion m : retval)
+							{
+								if(m.likes < minLikes) minLikes = m.likes;
+							}
+						}
+
+						c.cd("..");
+					}
+
+					// get actual questions
+					for(MiniQuestion m : retval)
+					{
+						tmpRetval.add(m.id);
+					}
 				}
-				
-				// iterate through rest of questions, adding to retval if likes is > minLikes
-				// while removing old questionID with minLikes and updating minLikes
-				for(int i = number; i < totalQuestions; i++)
-				{
-					
-				}
-				
-				// get actual questions
-				return getQuestions(new ArrayList<Integer>(retval.values()));
 			}
 			catch(Exception ex)
 			{
-
+				Log.d("getTopQuestions", ex.getMessage());
 			}
 		}
 		catch(Exception ex)
 		{
-
+			Log.d("getTopQuestions", ex.getMessage());
 		}
 
-		return new ArrayList<Question>();
+		return getQuestions(tmpRetval);
 	}
 }
