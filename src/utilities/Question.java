@@ -8,6 +8,7 @@ public class Question
 	private int ups;
 	private Answerer answerer;
 	private String user;
+	private int numAnswers = -1;
 	
 	// constructors
 	public Question() // don't use me
@@ -22,6 +23,7 @@ public class Question
 		ups = 0;
 		answerer = Answerer.values()[a]; // todo::: check for bounds !!!!
 		user = use;
+		numAnswers = -1;
 	}
 	
 	public Question(String q, int up, int a, String use)
@@ -30,6 +32,7 @@ public class Question
 		ups = up;
 		answerer = Answerer.values()[a];
 		user = use;
+		numAnswers = -1;
 	}
 	
 	// methods
@@ -56,5 +59,15 @@ public class Question
 	public String getUser()
 	{
 		return user;
+	}
+	
+	public int getNumAnswers()
+	{
+		return numAnswers;
+	}
+	
+	public void setNumAnswers(int a)
+	{
+		numAnswers = a;
 	}
 }

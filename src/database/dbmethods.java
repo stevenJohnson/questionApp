@@ -433,7 +433,16 @@ public class dbmethods
 					ups = scanny.nextInt();
 					username = scanny.nextLine();
 
-					retval.add(new Question(theQuestion, answerer, ups, username));
+					Question q = new Question(theQuestion, answerer, ups, username);
+					
+					// get current number of answers
+					Vector v = c.ls("Answers");
+
+					// one for ., one for .., so subtract two since we index from 0
+					int answers = v.size() - 2;
+					q.setNumAnswers(answers);
+					
+					retval.add(q);
 
 					is.close();
 					scanny.close();
