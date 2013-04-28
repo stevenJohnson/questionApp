@@ -26,7 +26,7 @@ public class TempQuestionActivity extends Activity
 		setContentView(R.layout.activity_temp_question);
 		
 		//picking the person with a spinner instead of typing ID.
-		Spinner spinner = (Spinner) findViewById(R.id.namespinner);
+		final Spinner spinner = (Spinner) findViewById(R.id.namespinner);
 		for (int i= 0; i < CategorySorter.getLength(); i++){
 			names[i] = CategorySorter.getCharacterName(i);
 		}
@@ -38,7 +38,8 @@ public class TempQuestionActivity extends Activity
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						int personId = Integer.parseInt(((EditText)findViewById(R.id.personid)).getText().toString());
+						int personId = spinner.getSelectedItemPosition();
+						//int personId = Integer.parseInt(((EditText)findViewById(R.id.personid)).getText().toString());
 						String question = ((EditText)findViewById(R.id.questionfield)).getText().toString();
 						String appUser = ((ThisApplication)getApplicationContext()).getUsername();
 						toPost = new Question(question, personId, appUser);

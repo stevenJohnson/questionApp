@@ -9,25 +9,14 @@
     tools:context=".TempQuestionActivity" >
 
     <EditText
-        android:id="@+id/personid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/questionfield"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:ems="10"
-        android:hint="person id"
-        android:inputType="number" />
-
-    <EditText
         android:id="@+id/questionfield"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/personid"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="What's your question?"
+        android:hint="What&apos;s your question?"
         android:inputType="textMultiLine"
         android:minLines="3" />
 
@@ -35,15 +24,15 @@
         android:id="@+id/namespinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/personid"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/personid"
         android:layout_below="@+id/namespinner"
+        android:layout_centerHorizontal="true"
         android:text="submit" />
 
 </RelativeLayout>
