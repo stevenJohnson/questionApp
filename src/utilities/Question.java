@@ -9,6 +9,7 @@ public class Question
 	private Answerer answerer;
 	private String user;
 	private int numAnswers = -1;
+	private boolean hasUserLiked;
 	
 	// constructors
 	public Question() // don't use me
@@ -24,6 +25,7 @@ public class Question
 		answerer = Answerer.values()[a]; // todo::: check for bounds !!!!
 		user = use;
 		numAnswers = -1;
+		hasUserLiked = false;
 	}
 	
 	public Question(String q, int up, int a, String use)
@@ -33,6 +35,7 @@ public class Question
 		answerer = Answerer.values()[a];
 		user = use;
 		numAnswers = -1;
+		hasUserLiked = false;
 	}
 	
 	// methods
@@ -69,5 +72,15 @@ public class Question
 	public void setNumAnswers(int a)
 	{
 		numAnswers = a;
+	}
+	
+	public boolean getHasUserLiked()
+	{
+		return hasUserLiked;
+	}
+	
+	public void setHasUserLiked(boolean b)
+	{
+		hasUserLiked = b;
 	}
 }

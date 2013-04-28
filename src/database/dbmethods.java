@@ -269,6 +269,13 @@ public class dbmethods
 				// blank file for questions and answers
 				c.put(filepath, "questions.txt");
 				c.put(filepath, "answers.txt");
+				
+				// make directory for likes
+				c.mkdir("Likes");
+				c.cd("Likes");
+				c.put(filepath, "likedA.txt");
+				c.put(filepath, "likedQ.txt");
+				c.cd("..");
 
 				// add name for name.txt
 				writery.write(name);
@@ -393,7 +400,8 @@ public class dbmethods
 	{
 		return getQuestions(new ArrayList<Integer>(questionID)).get(0);
 	}
-
+	
+	// untested
 	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs)
 	{
 		ArrayList<Question> retval = new ArrayList<Question>();
@@ -463,6 +471,7 @@ public class dbmethods
 		return retval;
 	}
 
+	// untested
 	public static ArrayList<Question> getTopQuestions(int number)
 	{
 		// dictionary of likes, questionid
@@ -601,5 +610,136 @@ public class dbmethods
 		}
 
 		return getQuestions(tmpRetval);
+	}
+	
+	// untested
+	public static void likeQuestion(int questionId, Context context)
+	{
+		String questionIdString = IdConverter.intToStringId(questionId);
+		boolean alreadyLiked = false;
+		// check if user has already liked this question
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Users");
+				c.cd(((ThisApplication)context).getUsername());
+				c.cd("Likes");
+				
+				InputStream is = c.get("likedQ.txt");
+				Scanner scanny = new Scanner(is);
+				
+				String s = "";
+				while(scanny.hasNext())
+				{
+					s = scanny.nextLine();
+					if(s.compareTo(questionIdString) == 0)
+					{
+						// we have already liked this question!!!
+						alreadyLiked = true;
+						break;
+					}
+				}
+				
+				scanny.close();
+				is.close();
+				
+				if(alreadyLiked)
+				{
+					// we should never get here...
+					Log.d("likeQuestion", "trying to like an already liked question.......");
+					return;
+				}
+				else
+				{
+					// user doesn't already like the question, so we must add it to their likedQ.txt
+					is = c.get("likedQ.txt");
+					scanny = new Scanner(is);
+
+					// make a new file that is a copy of likedQ.txt, but add our new questionId
+					String filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+					File file = new File(filepath);
+					file.createNewFile();
+
+					OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
+
+					s = "";
+					while(scanny.hasNext())
+					{
+						s = scanny.nextLine();
+						writer.write(s);
+						writer.write(System.getProperty("line.separator"));
+					}
+					scanny.close();
+					is.close();
+
+					// write new user
+					writer.write(questionIdString);
+					writer.write(System.getProperty("line.separator"));
+
+					writer.flush();
+					writer.close();
+
+					// put back the new file
+					c.rm("likedQ.txt");
+					c.put(filepath, "likedQ.txt");
+					
+					// must also increment the number of likes in this question's question.txt
+					c.cd("../../../Questions");
+					c.cd(questionIdString);
+					
+					is = c.get("question.txt");
+					scanny = new Scanner(is);
+
+					// make a new file that is a copy of likedQ.txt, but add our new questionId
+					filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+					file = new File(filepath);
+					file.createNewFile();
+
+					writer = new OutputStreamWriter(new FileOutputStream(file));
+
+					s = "";
+					writer.write(scanny.nextLine()); // gets question text
+					writer.write(scanny.nextLine()); // gets person id
+					int currentLikes = scanny.nextInt(); // gets number of likes
+					currentLikes++;
+					writer.write(currentLikes);
+					writer.write(System.getProperty("line.separator"));
+					writer.write(scanny.nextLine()); // gets username of question writer
+					
+					scanny.close();
+					is.close();
+
+					writer.flush();
+					writer.close();
+
+					// put back the new file
+					c.rm("question.txt");
+					c.put(filepath, "question.txt");
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.d("likeQuestion", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.d("likeQuestion", ex.getMessage());
+		}
 	}
 }

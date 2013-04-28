@@ -7,6 +7,7 @@ public class Answer
 	private int questionID;
 	private String theAnswer;
 	private int ups;
+	private boolean hasUserLiked;
 	
 	// constructors
 	public Answer() // don't use me
@@ -20,6 +21,7 @@ public class Answer
 		questionID = q;
 		theAnswer = a;
 		ups = 0;
+		hasUserLiked = false;
 	}
 	
 	public int getAnswerID()
@@ -40,5 +42,15 @@ public class Answer
 	public int getUps()
 	{
 		return ups;
+	}
+	
+	public boolean getHasUserLiked()
+	{
+		return hasUserLiked;
+	}
+	
+	public void setHasUserLiked(boolean b)
+	{
+		hasUserLiked = b;
 	}
 }
