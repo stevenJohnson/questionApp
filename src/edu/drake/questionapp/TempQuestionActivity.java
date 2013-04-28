@@ -1,26 +1,38 @@
 package edu.drake.questionapp;
 
-import database.dbmethods;
-
+import utilities.CategorySorter;
 import utilities.Question;
 import utilities.ThisApplication;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import database.dbmethods;
 
 public class TempQuestionActivity extends Activity
 {
 
 	private Question toPost;
 	
+	String[] names = new String[CategorySorter.getLength()];
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_temp_question);
-
+		
+		//picking the person with a spinner instead of typing ID.
+		Spinner spinner = (Spinner) findViewById(R.id.namespinner);
+		for (int i= 0; i < CategorySorter.getLength(); i++){
+			names[i] = CategorySorter.getCharacterName(i);
+		}
+		ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, names);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
 
 		findViewById(R.id.submit).setOnClickListener(
 				new View.OnClickListener() {

@@ -8,16 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TempQuestionActivity" >
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginRight="18dp"
-        android:text="submit" />
-
     <EditText
         android:id="@+id/personid"
         android:layout_width="wrap_content"
@@ -40,5 +30,20 @@
         android:hint="What's your question?"
         android:inputType="textMultiLine"
         android:minLines="3" />
+
+    <Spinner
+        android:id="@+id/namespinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/personid"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/personid"
+        android:layout_below="@+id/spinner1"
+        android:text="submit" />
 
 </RelativeLayout>
