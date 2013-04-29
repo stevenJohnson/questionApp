@@ -85,7 +85,8 @@
                 android:layout_gravity="bottom"
                 android:layout_marginTop="32dp"
                 android:text="Sign up   "
-                android:textAlignment="center" />
+                android:textAlignment="center" 
+                android:background="#78A82C"/>
 
         </LinearLayout>
 
