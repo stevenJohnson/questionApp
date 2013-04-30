@@ -269,7 +269,7 @@ public class dbmethods
 				// blank file for questions and answers
 				c.put(filepath, "questions.txt");
 				c.put(filepath, "answers.txt");
-				
+
 				// make directory for likes
 				c.mkdir("Likes");
 				c.cd("Likes");
@@ -400,7 +400,7 @@ public class dbmethods
 	{
 		return getQuestions(new ArrayList<Integer>(questionID)).get(0);
 	}
-	
+
 	// untested
 	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs)
 	{
@@ -442,14 +442,14 @@ public class dbmethods
 					username = scanny.nextLine();
 
 					Question q = new Question(theQuestion, answerer, ups, username);
-					
+
 					// get current number of answers
 					Vector v = c.ls("Answers");
 
 					// one for ., one for .., so subtract two since we index from 0
 					int answers = v.size() - 2;
 					q.setNumAnswers(answers);
-					
+
 					retval.add(q);
 
 					is.close();
@@ -543,7 +543,7 @@ public class dbmethods
 						retval.add(new MiniQuestion(thisQuestionsLikes, i));
 						c.cd("..");
 					}
-					
+
 					// set minLikes for the first time
 					minLikes = 9001;
 					for(MiniQuestion m : retval)
@@ -611,7 +611,7 @@ public class dbmethods
 
 		return getQuestions(tmpRetval);
 	}
-	
+
 	// untested
 	public static void likeQuestion(int questionId, Context context)
 	{
@@ -639,10 +639,10 @@ public class dbmethods
 				c.cd("Users");
 				c.cd(((ThisApplication)context).getUsername());
 				c.cd("Likes");
-				
+
 				InputStream is = c.get("likedQ.txt");
 				Scanner scanny = new Scanner(is);
-				
+
 				String s = "";
 				while(scanny.hasNext())
 				{
@@ -654,10 +654,10 @@ public class dbmethods
 						break;
 					}
 				}
-				
+
 				scanny.close();
 				is.close();
-				
+
 				if(alreadyLiked)
 				{
 					// we should never get here...
@@ -687,7 +687,7 @@ public class dbmethods
 					scanny.close();
 					is.close();
 
-					// write new user
+					// write new questionId
 					writer.write(questionIdString);
 					writer.write(System.getProperty("line.separator"));
 
@@ -697,15 +697,15 @@ public class dbmethods
 					// put back the new file
 					c.rm("likedQ.txt");
 					c.put(filepath, "likedQ.txt");
-					
+
 					// must also increment the number of likes in this question's question.txt
 					c.cd("../../../Questions");
 					c.cd(questionIdString);
-					
+
 					is = c.get("question.txt");
 					scanny = new Scanner(is);
 
-					// make a new file that is a copy of likedQ.txt, but add our new questionId
+					// make a new file that is a copy of question.txt, but increment likes
 					filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
 					file = new File(filepath);
 					file.createNewFile();
@@ -720,7 +720,7 @@ public class dbmethods
 					writer.write(currentLikes);
 					writer.write(System.getProperty("line.separator"));
 					writer.write(scanny.nextLine()); // gets username of question writer
-					
+
 					scanny.close();
 					is.close();
 
@@ -740,6 +740,139 @@ public class dbmethods
 		catch(Exception ex)
 		{
 			Log.d("likeQuestion", ex.getMessage());
+		}
+	}
+
+	// untested
+	public static void likeAnswer(int questionId, int answerId, Context context)
+	{
+		String answerIdString = IdConverter.intToStringId(answerId);
+		String questionIdString = IdConverter.intToStringId(questionId);
+		String combinedIdString = questionIdString + ":" + answerIdString;
+		boolean alreadyLiked = false;
+		// check if user has already liked this answer
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Users");
+				c.cd(((ThisApplication)context).getUsername());
+				c.cd("Likes");
+
+				InputStream is = c.get("likedA.txt");
+				Scanner scanny = new Scanner(is);
+
+				String s = "";
+				while(scanny.hasNext())
+				{
+					s = scanny.nextLine();
+					if(s.compareTo(combinedIdString) == 0)
+					{
+						// we have already liked this answer!!!
+						alreadyLiked = true;
+						break;
+					}
+				}
+
+				scanny.close();
+				is.close();
+
+				if(alreadyLiked)
+				{
+					// we should never get here...
+					Log.d("likeAnswer", "trying to like an already liked answer.......");
+					return;
+				}
+				else
+				{
+					// user doesn't already like the answer, so we must add it to their likedA.txt
+					is = c.get("likedA.txt");
+					scanny = new Scanner(is);
+
+					// make a new file that is a copy of likedA.txt, but add our new answerId
+					String filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+					File file = new File(filepath);
+					file.createNewFile();
+
+					OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
+
+					s = "";
+					while(scanny.hasNext())
+					{
+						s = scanny.nextLine();
+						writer.write(s);
+						writer.write(System.getProperty("line.separator"));
+					}
+					scanny.close();
+					is.close();
+
+					// write new combinedId
+					writer.write(combinedIdString);
+					writer.write(System.getProperty("line.separator"));
+
+					writer.flush();
+					writer.close();
+
+					// put back the new file
+					c.rm("likedA.txt");
+					c.put(filepath, "likedA.txt");
+
+					// must also increment the number of likes in this answer's answer.txt
+					c.cd("../../../Questions");
+					c.cd(questionIdString);
+					c.cd("Answers");
+
+					is = c.get(answerIdString + ".txt");
+					scanny = new Scanner(is);
+
+					// make a new file that is a copy of "answerIdstring".txt, but increment likes
+					filepath = context.getFilesDir().getPath().toString() + "/tmp.txt";
+					file = new File(filepath);
+					file.createNewFile();
+
+					writer = new OutputStreamWriter(new FileOutputStream(file));
+
+					s = "";
+					writer.write(scanny.nextLine()); // gets answer text
+					writer.write(scanny.nextLine()); // gets username of answer writer
+					int currentLikes = scanny.nextInt(); // gets number of likes
+					currentLikes++;
+					writer.write(currentLikes);
+					writer.write(System.getProperty("line.separator"));
+
+					scanny.close();
+					is.close();
+
+					writer.flush();
+					writer.close();
+
+					// put back the new file
+					c.rm(answerIdString + ".txt");
+					c.put(filepath, answerIdString + ".txt");
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.d("likeAnswer", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.d("likeAnswer", ex.getMessage());
 		}
 	}
 }
