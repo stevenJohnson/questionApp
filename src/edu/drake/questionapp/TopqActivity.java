@@ -3,8 +3,13 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import database.dbmethods;
+
 import utilities.QListAdapter;
+import utilities.Question;
+import utilities.ThisApplication;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,53 +19,50 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  * 
  */
-public class TopqActivity extends Fragment {
+public class TopqActivity extends Fragment
+{
 	private static final String TAG = "TopqActivity";
+	private ArrayList<Question> myQuestions = new ArrayList<Question>();
+	View theView;
 
-	public TopqActivity() {
+	public TopqActivity()
+	{
 		// Required empty public constructor
 	}
 	
+	private void makeLoadingInvisible()
+	{
+		TextView loading = (TextView) theView.findViewById(R.id.topQloading);
+		loading.setVisibility(TextView.INVISIBLE);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
 	}
-	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		//View view = inflater.inflate(R.layout.fragment_topq,container,false);
-		/*GridView gridView = (GridView) view.findViewById(R.id.gridview);
-		gridView.setAdapter(new PhotoImageAdapter(view.getContext()));			
-		return view;
-		*/
-		String[] names = new String[] { "Bob", "Dan", "Andy",
-		        "Ross", "Steven", "McKenzie", "Megan", "Joe",
-		        "Lisa", "Big Mclarge Huge" };
-		    String[] questions = new String[] { "question one", "question two", 
-		    		"question three",	"question four", "question five", "question six", 
-		    		"question seven", "question eight", "question nine", "question ten"};
-		    final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		    HashMap<String, String> map;
-		    for (int i = 0; i < names.length; ++i) {
-		    	 map = new HashMap<String, String>();
-		    	    map.put("name", names[i]);
-		    	    map.put("question", questions[i]);
-		    	    list.add(map);
-		    }
-		
+			Bundle savedInstanceState)
+	{
 		final View view = inflater.inflate(R.layout.fragment_topq, container, false);
+		theView = view;
 		ListView listview = (ListView) view.findViewById(R.id.topQlist);
-	    listview.setAdapter(new QListAdapter(view.getContext(), list));
-	    
+
+		if(myQuestions.size() == 0)
+		{
+			GetTopQuestionsTask t = new GetTopQuestionsTask();
+			t.execute();
+		}
+
+		listview.setAdapter(new QListAdapter(view.getContext(), myQuestions));
 
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -68,13 +70,49 @@ public class TopqActivity extends Fragment {
 			public void onItemClick(AdapterView<?> arg1, View arg2, int pos, long arg3)
 			{
 				Log.d(TAG, "" + pos);
-				
+
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				startActivity(intent);
 			}
 		});
-	    return view;
+		return view;
+	}
+
+	public class GetTopQuestionsTask extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(Void... params)
+		{
+			// post the loading message
+			TextView loading = (TextView) theView.findViewById(R.id.topQloading);
+			loading.setVisibility(TextView.VISIBLE);
+			
+			myQuestions = dbmethods.getTopQuestions(16);
+			return myQuestions.size() <= 16 && myQuestions.size() > 0;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success)
+		{
+			if (success)
+			{
+				// remove the loading message 
+				makeLoadingInvisible();
+				
+				ListView listview = (ListView) theView.findViewById(R.id.topQlist);
+				Log.d("post ex", "about to refresh");
+				listview.setAdapter(new QListAdapter(theView.getContext(), myQuestions));
+				Log.d("post ex", "refreshed");
+				
+				
+			}
+			else
+			{
+				// post an error
+				Log.d("post ex", "ERRORRRRRRRRRRRRRRRRRRR");
+			}
+		}
 	}
 
 }

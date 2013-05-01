@@ -396,9 +396,9 @@ public class dbmethods
 		return true;
 	}
 
-	public static Question getQuestions(int questionID)
+	public static ArrayList<Question> getQuestions(int questionID)
 	{
-		return getQuestions(new ArrayList<Integer>(questionID)).get(0);
+		return getQuestions(new ArrayList<Integer>(questionID));
 	}
 
 	// untested
@@ -427,59 +427,91 @@ public class dbmethods
 			ChannelSftp c=(ChannelSftp)channel;
 			try
 			{
+				Log.d("getQ", "top");
+				Log.d("getQ", "questionIDs size ::: " + questionIDs.size());
+				
+				for(Integer a : questionIDs)
+				{
+					Log.d("getQ", a + "");
+				}
+				
 				c.cd("WhatWould");
 				c.cd("Questions");
+				Log.d("gettopq", "size of questionIDs ::: " + questionIDs.size());
 
 				for(int i = 0; i < questionIDs.size(); i++)
 				{
+					Log.d("getQ", utilities.IdConverter.intToStringId(questionIDs.get(i)));
 					c.cd(utilities.IdConverter.intToStringId(questionIDs.get(i)));
-
+					Log.d("getQ", "changed to the questionid dir " + questionIDs.get(i));
 					InputStream is = c.get("question.txt");
 					Scanner scanny = new Scanner(is);
 					theQuestion = scanny.nextLine();
+					Log.d("getQ", "theQuestion ::: " + theQuestion);
 					answerer = scanny.nextInt();
+					Log.d("getQ", "answerer ::: " + answerer);
 					ups = scanny.nextInt();
+					Log.d("getQ", "ups ::: " + ups);
 					username = scanny.nextLine();
-
-					Question q = new Question(theQuestion, answerer, ups, username);
-
-					// get current number of answers
-					Vector v = c.ls("Answers");
-
-					// one for ., one for .., so subtract two since we index from 0
-					int answers = v.size() - 2;
-					q.setNumAnswers(answers);
-
-					retval.add(q);
-
+					username = scanny.nextLine();
+					Log.d("getQ", "username ::: " + username);
+					
 					is.close();
 					scanny.close();
 
+					Question q = new Question(theQuestion, ups, answerer, username);
+					Log.d("getQ", "created question object");
+
+					// get current number of answers  
+					Vector v = c.ls("Answers");
+					Log.d("getQ", "did the ls");
+
+					// one for ., one for .., so subtract two since we index from 0 
+					int answers = v.size() - 2;
+					Log.d("getQ", "got the size");
+					q.setNumAnswers(answers);
+					Log.d("getQ", "set number of answers to ::: " + answers);
+
+					retval.add(q);
+					
+					Log.d("getQ", "made it to end of loop");
 					c.cd("..");
 				}
 			}
 			catch(Exception ex)
 			{
-				Log.d("postAnswer", ex.getMessage());
+				Log.d("getQuestions", ex.getMessage());
 			}
 		}
 		catch(Exception ex)
 		{
-			Log.d("postAnswer", ex.getMessage());
+			Log.d("getQuestions", ex.getMessage());
+		}
+		
+		Log.d("end of getquestions", "size of input ::: " + questionIDs.size());
+		Log.d("end of getquestions", "size of output ::: " + retval.size());
+		
+		for(Question q : retval)
+		{
+			Log.d("end of getquestions", "question id ::: " + q.getQuestionID());
+			Log.d("end of getquestions", q.getQuestion());
+			Log.d("end of getquestions", "answerer ::: " + q.getAnswerers());
+			Log.d("end of getquestions", "likes ::: " + q.getUps());
 		}
 
+		Log.d("end of getquestions", "return time");
+		
 		return retval;
 	}
 
 	// untested
 	public static ArrayList<Question> getTopQuestions(int number)
 	{
+		Log.d("gettopq", "top of top q");
 		// dictionary of likes, questionid
 		ArrayList<MiniQuestion> retval = new ArrayList<MiniQuestion>();
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
-		//HashMap<Integer, Integer> retval = new HashMap<Integer, Integer>();
 		int minLikes = 0;
-
 
 		JSch jsch = new JSch();
 		String user="asapp";
@@ -498,6 +530,7 @@ public class dbmethods
 			ChannelSftp c=(ChannelSftp)channel;
 			try
 			{
+				Log.d("gettopq", "we has connected");
 				c.cd("WhatWould");
 
 				// obtain vector from ls simply to count the number of directories
@@ -509,9 +542,12 @@ public class dbmethods
 				// one for ., one for .., so subtract two since we index from 0
 				// i is the number of questions total
 				int totalQuestions = v.size() - 2;
+				
+				Log.d("gettopq", "number of questions total ::: " + totalQuestions);
 
 				if(number > totalQuestions)				
 				{
+					Log.d("gettopq", "we ain't got many questions");
 					// return all questions
 					for(int i = 0; i < totalQuestions; i++)
 					{
@@ -520,16 +556,20 @@ public class dbmethods
 				}
 				else
 				{
+					Log.d("gettopq", "grabbing first number of questions");
 					// grab first number questions
 					int thisQuestionsLikes = 0;
 
 					InputStream is;
 					Scanner scanny;
 					int trash; String garbage;
+					
+					Log.d("gettopq", "number ::: " + number);
 
 					for(int i = 0; i < number; i++)
 					{
 						c.cd(utilities.IdConverter.intToStringId(i));
+						Log.d("gettopq", "in first dir");
 
 						is = c.get("question.txt");
 						scanny = new Scanner(is);
@@ -539,10 +579,19 @@ public class dbmethods
 
 						scanny.close();
 						is.close();
+						
+						Log.d("gettopq", "read in a q " + i);
 
-						retval.add(new MiniQuestion(thisQuestionsLikes, i));
+						retval.add(new MiniQuestion(i, thisQuestionsLikes));
 						c.cd("..");
 					}
+					
+					for(MiniQuestion m : retval)
+					{
+						Log.d("gettopq", "MINIQUESTIONS PT A " + m.id + " " + m.likes);
+					}
+					
+					Log.d("gettopq", "after adding original stuffs");
 
 					// set minLikes for the first time
 					minLikes = 9001;
@@ -556,22 +605,28 @@ public class dbmethods
 					for(int i = number; i < totalQuestions; i++)
 					{
 						c.cd(utilities.IdConverter.intToStringId(i));
+						Log.d("gettopq", "in second dir");
 
 						is = c.get("question.txt");
 						scanny = new Scanner(is);
 						garbage = scanny.nextLine();
 						trash = scanny.nextInt();
 						thisQuestionsLikes = scanny.nextInt();
-
+						//
 						scanny.close();
 						is.close();
+						
+						Log.d("gettopq", "read in a q " + i);
 
 						if(thisQuestionsLikes > minLikes)
 						{
+							Log.d("gettopq", "inside greater than stuff " + i);
+							Log.d("gettopq", "size of retval at start ::: " + retval.size());
+							Log.d("gettopq", "minlikes at start ::: " + minLikes);
 							// remove a question with minLikes number of likes
 							for(MiniQuestion m : retval)
 							{
-								if(m.id == minLikes)
+								if(m.likes == minLikes)
 								{
 									retval.remove(m);
 									break;
@@ -587,9 +642,18 @@ public class dbmethods
 							{
 								if(m.likes < minLikes) minLikes = m.likes;
 							}
+							Log.d("gettopq", "size of retval at end ::: " + retval.size());
+							Log.d("gettopq", "minlikes at end ::: " + minLikes);
 						}
 
 						c.cd("..");
+					}
+					
+					Log.d("gettopq", "about to add questions to tmpretval");
+					
+					for(MiniQuestion m : retval)
+					{
+						Log.d("gettopq", "MINIQUESTIONS PT B " + m.id + " " + m.likes);
 					}
 
 					// get actual questions
@@ -608,7 +672,7 @@ public class dbmethods
 		{
 			Log.d("getTopQuestions", ex.getMessage());
 		}
-
+		
 		return getQuestions(tmpRetval);
 	}
 
@@ -875,4 +939,7 @@ public class dbmethods
 			Log.d("likeAnswer", ex.getMessage());
 		}
 	}
+	
+	// recent questions
+	// my questions
 }
