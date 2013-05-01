@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -429,12 +427,12 @@ public class dbmethods
 			{
 				Log.d("getQ", "top");
 				Log.d("getQ", "questionIDs size ::: " + questionIDs.size());
-				
+
 				for(Integer a : questionIDs)
 				{
 					Log.d("getQ", a + "");
 				}
-				
+
 				c.cd("WhatWould");
 				c.cd("Questions");
 				Log.d("gettopq", "size of questionIDs ::: " + questionIDs.size());
@@ -455,7 +453,7 @@ public class dbmethods
 					username = scanny.nextLine();
 					username = scanny.nextLine();
 					Log.d("getQ", "username ::: " + username);
-					
+
 					is.close();
 					scanny.close();
 
@@ -473,7 +471,7 @@ public class dbmethods
 					Log.d("getQ", "set number of answers to ::: " + answers);
 
 					retval.add(q);
-					
+
 					Log.d("getQ", "made it to end of loop");
 					c.cd("..");
 				}
@@ -487,10 +485,10 @@ public class dbmethods
 		{
 			Log.d("getQuestions", ex.getMessage());
 		}
-		
+
 		Log.d("end of getquestions", "size of input ::: " + questionIDs.size());
 		Log.d("end of getquestions", "size of output ::: " + retval.size());
-		
+
 		for(Question q : retval)
 		{
 			Log.d("end of getquestions", "question id ::: " + q.getQuestionID());
@@ -500,7 +498,7 @@ public class dbmethods
 		}
 
 		Log.d("end of getquestions", "return time");
-		
+
 		return retval;
 	}
 
@@ -542,7 +540,7 @@ public class dbmethods
 				// one for ., one for .., so subtract two since we index from 0
 				// i is the number of questions total
 				int totalQuestions = v.size() - 2;
-				
+
 				Log.d("gettopq", "number of questions total ::: " + totalQuestions);
 
 				if(number > totalQuestions)				
@@ -563,7 +561,7 @@ public class dbmethods
 					InputStream is;
 					Scanner scanny;
 					int trash; String garbage;
-					
+
 					Log.d("gettopq", "number ::: " + number);
 
 					for(int i = 0; i < number; i++)
@@ -579,18 +577,18 @@ public class dbmethods
 
 						scanny.close();
 						is.close();
-						
+
 						Log.d("gettopq", "read in a q " + i);
 
 						retval.add(new MiniQuestion(i, thisQuestionsLikes));
 						c.cd("..");
 					}
-					
+
 					for(MiniQuestion m : retval)
 					{
 						Log.d("gettopq", "MINIQUESTIONS PT A " + m.id + " " + m.likes);
 					}
-					
+
 					Log.d("gettopq", "after adding original stuffs");
 
 					// set minLikes for the first time
@@ -610,12 +608,13 @@ public class dbmethods
 						is = c.get("question.txt");
 						scanny = new Scanner(is);
 						garbage = scanny.nextLine();
-						trash = scanny.nextInt();
+						garbage = scanny.nextLine();
+						//trash = scanny.nextInt();
 						thisQuestionsLikes = scanny.nextInt();
 						//
 						scanny.close();
 						is.close();
-						
+
 						Log.d("gettopq", "read in a q " + i);
 
 						if(thisQuestionsLikes > minLikes)
@@ -648,9 +647,9 @@ public class dbmethods
 
 						c.cd("..");
 					}
-					
+
 					Log.d("gettopq", "about to add questions to tmpretval");
-					
+
 					for(MiniQuestion m : retval)
 					{
 						Log.d("gettopq", "MINIQUESTIONS PT B " + m.id + " " + m.likes);
@@ -672,7 +671,7 @@ public class dbmethods
 		{
 			Log.d("getTopQuestions", ex.getMessage());
 		}
-		
+
 		return getQuestions(tmpRetval);
 	}
 
@@ -939,7 +938,13 @@ public class dbmethods
 			Log.d("likeAnswer", ex.getMessage());
 		}
 	}
-	
+
+	public static ArrayList<Answer> getAnswers(ArrayList<Integer> fullIDs)
+	{
+		// implement me pls !!
+		return new ArrayList<Answer>();
+	}
+
 	// recent questions
 	// my questions
 }

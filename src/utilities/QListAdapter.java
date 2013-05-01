@@ -1,7 +1,6 @@
 package utilities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import edu.drake.questionapp.R;
 import android.content.Context;
@@ -35,20 +34,20 @@ public class QListAdapter extends ArrayAdapter<Question>
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);		
-		
+
 		TextView textViewQ = (TextView) rowView.findViewById(R.id.question);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 		TextView textViewN = (TextView) rowView.findViewById(R.id.name);
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answers);
 		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
-		
+
 		Question q = list.get(position);
-		
+
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
 		textViewA.setText(q.getNumAnswers() + "A");
 		textViewL.setText(q.getUps() + "Likes");
-		
+
 		return rowView;
 	}
 } 

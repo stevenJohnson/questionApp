@@ -1,11 +1,15 @@
 package edu.drake.questionapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import database.dbmethods;
 
 import utilities.AListAdapter;
+import utilities.Answer;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,35 +17,48 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class QuestionActivity extends Activity {
-
+public class QuestionActivity extends Activity
+{
 	private static final String TAG = "QuestionActivity";
 	Button button;
-	
+	ArrayList<Integer> desiredAnswerIDs = new ArrayList<Integer>();
+	ArrayList<Answer> myAnswers = new ArrayList<Answer>();
+	Context myContext;
+
+	private void makeLoadingInvisible()
+	{
+		TextView loading = (TextView) findViewById(R.id.answerLoading);
+		loading.setVisibility(TextView.INVISIBLE);
+	}
+
+	private void makeLoadingVisible()
+	{
+		TextView loading = (TextView) findViewById(R.id.answerLoading);
+		loading.setVisibility(TextView.VISIBLE);
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
-		
+		myContext = getBaseContext();
+
 		final ListView listview = (ListView) findViewById(R.id.AList);
-	    String[] names = new String[] {"Ross", "Steven", "McKenzie", "Megan", "Joe"};
-	    String[] answers = new String[] { "answer one", "answer two", 
-	    		"answer three",	"answer four", "answer five"};
-	    
-	    final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-	    HashMap<String, String> map;
-	    for (int i = 0; i < names.length; ++i) {
-	    	 map = new HashMap<String, String>();
-	    	    map.put("name", names[i]);
-	    	    map.put("answer", answers[i]);
-	    	    list.add(map);
-	    }
-	    AListAdapter adapter = new AListAdapter(this, list);
-	    listview.setAdapter(adapter);
-		
+
+		// use an asynch task to fill myAnswers !!
+		makeLoadingVisible();
+		GetAnswersTask t = new GetAnswersTask();
+		t.execute();		
+
+		AListAdapter adapter = new AListAdapter(this, myAnswers);
+		listview.setAdapter(adapter);
+
 		button = (Button) findViewById(R.id.submit); 
-		button.setOnClickListener(new OnClickListener() { 
+		button.setOnClickListener(new OnClickListener()
+		{ 
 			@Override
 			public void onClick(View v) {
 				//code put here will be executed when button is pressed
@@ -61,4 +78,37 @@ public class QuestionActivity extends Activity {
 		return true;
 	}
 
+	public class GetAnswersTask extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(Void... params)
+		{
+			// post the loading message
+			TextView loading = (TextView) findViewById(R.id.answerLoading);
+			loading.setVisibility(TextView.VISIBLE);
+
+			myAnswers = dbmethods.getAnswers(desiredAnswerIDs);
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success)
+		{
+			if (success)
+			{
+				// remove the loading message 
+				makeLoadingInvisible();
+
+				ListView listview = (ListView) findViewById(R.id.AList);
+				Log.d("post ex", "about to refresh");
+				listview.setAdapter(new AListAdapter(myContext, myAnswers));
+				Log.d("post ex", "refreshed");				
+			}
+			else
+			{
+				// post an error
+				Log.d("post ex", "ERRORRRRRRRRRRRRRRRRRRR");
+			}
+		}
+	}
 }

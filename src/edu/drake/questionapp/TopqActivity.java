@@ -1,13 +1,11 @@
 package edu.drake.questionapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import database.dbmethods;
 
 import utilities.QListAdapter;
 import utilities.Question;
-import utilities.ThisApplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,11 +33,17 @@ public class TopqActivity extends Fragment
 	{
 		// Required empty public constructor
 	}
-	
+
 	private void makeLoadingInvisible()
 	{
 		TextView loading = (TextView) theView.findViewById(R.id.topQloading);
 		loading.setVisibility(TextView.INVISIBLE);
+	}
+
+	private void makeLoadingVisible()
+	{
+		TextView loading = (TextView) theView.findViewById(R.id.topQloading);
+		loading.setVisibility(TextView.VISIBLE);
 	}
 
 	@Override
@@ -58,6 +62,7 @@ public class TopqActivity extends Fragment
 
 		if(myQuestions.size() == 0)
 		{
+			makeLoadingVisible();
 			GetTopQuestionsTask t = new GetTopQuestionsTask();
 			t.execute();
 		}
@@ -83,11 +88,7 @@ public class TopqActivity extends Fragment
 	{
 		@Override
 		protected Boolean doInBackground(Void... params)
-		{
-			// post the loading message
-			TextView loading = (TextView) theView.findViewById(R.id.topQloading);
-			loading.setVisibility(TextView.VISIBLE);
-			
+		{			
 			myQuestions = dbmethods.getTopQuestions(16);
 			return myQuestions.size() <= 16 && myQuestions.size() > 0;
 		}
@@ -99,13 +100,11 @@ public class TopqActivity extends Fragment
 			{
 				// remove the loading message 
 				makeLoadingInvisible();
-				
+
 				ListView listview = (ListView) theView.findViewById(R.id.topQlist);
 				Log.d("post ex", "about to refresh");
 				listview.setAdapter(new QListAdapter(theView.getContext(), myQuestions));
 				Log.d("post ex", "refreshed");
-				
-				
 			}
 			else
 			{
