@@ -38,6 +38,17 @@ public class Question
 		hasUserLiked = false;
 	}
 	
+	public Question(int questionid, String q, int up, int a, String use)
+	{
+		questionID = questionid;
+		theQuestion = q;
+		ups = up;
+		answerer = Answerer.values()[a];
+		user = use;
+		numAnswers = -1;
+		hasUserLiked = false;
+	}
+	
 	// methods
 	public int getQuestionID()
 	{

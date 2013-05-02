@@ -399,7 +399,6 @@ public class dbmethods
 		return getQuestions(new ArrayList<Integer>(questionID));
 	}
 
-	// untested
 	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs)
 	{
 		ArrayList<Question> retval = new ArrayList<Question>();
@@ -457,7 +456,7 @@ public class dbmethods
 					is.close();
 					scanny.close();
 
-					Question q = new Question(theQuestion, ups, answerer, username);
+					Question q = new Question(questionIDs.get(i), theQuestion, ups, answerer, username);
 					Log.d("getQ", "created question object");
 
 					// get current number of answers  
@@ -502,7 +501,6 @@ public class dbmethods
 		return retval;
 	}
 
-	// untested
 	public static ArrayList<Question> getTopQuestions(int number)
 	{
 		Log.d("gettopq", "top of top q");

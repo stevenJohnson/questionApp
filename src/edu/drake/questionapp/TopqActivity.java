@@ -79,6 +79,15 @@ public class TopqActivity extends Fragment
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
+				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
+				
+				for(Question q: myQuestions)
+				{
+					Log.d(TAG, "questionID ::: " + q.getQuestionID());
+					Log.d(TAG, "question ::: " + q.getQuestion());
+					Log.d(TAG, "questionID ::: " + q.getNumAnswers());
+				}
+				
 				startActivity(intent);
 			}
 		});
