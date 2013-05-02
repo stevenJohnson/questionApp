@@ -23,7 +23,7 @@ public class QuestionActivity extends Activity
 {
 	private static final String TAG = "QuestionActivity";
 	Button button;
-	ArrayList<Integer> desiredAnswerIDs = new ArrayList<Integer>();
+	int desiredQuestionID = -1;
 	ArrayList<Answer> myAnswers = new ArrayList<Answer>();
 	Context myContext;
 
@@ -45,6 +45,8 @@ public class QuestionActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_question);
 		myContext = getBaseContext();
+		
+		desiredQuestionID = getIntent().getExtras().getInt("questionID");
 
 		final ListView listview = (ListView) findViewById(R.id.AList);
 
@@ -87,7 +89,7 @@ public class QuestionActivity extends Activity
 			TextView loading = (TextView) findViewById(R.id.answerLoading);
 			loading.setVisibility(TextView.VISIBLE);
 
-			myAnswers = dbmethods.getAnswers(desiredAnswerIDs);
+			myAnswers = dbmethods.getAnswers(desiredQuestionID);
 			return true;
 		}
 

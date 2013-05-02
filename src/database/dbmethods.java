@@ -939,7 +939,7 @@ public class dbmethods
 		}
 	}
 
-	public static ArrayList<Answer> getAnswers(ArrayList<Integer> fullIDs)
+	public static ArrayList<Answer> getAnswers(int questionID)
 	{
 		// implement me pls !!
 		return new ArrayList<Answer>();
