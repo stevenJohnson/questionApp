@@ -15,12 +15,21 @@ public class Answer
 		answerID = -1;
 	}
 	
-	public Answer(String a, int q)
+	public Answer(String ans, int q)
 	{
 		// answer id obtained for insertion
 		questionID = q;
-		theAnswer = a;
+		theAnswer = ans;
 		ups = 0;
+		hasUserLiked = false;
+	}
+	
+	public Answer(String ans, int q, int a, int upss)
+	{
+		answerID = a;
+		questionID = q;
+		theAnswer = ans;
+		ups = upss;
 		hasUserLiked = false;
 	}
 	

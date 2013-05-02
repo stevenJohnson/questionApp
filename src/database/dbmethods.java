@@ -941,8 +941,67 @@ public class dbmethods
 
 	public static ArrayList<Answer> getAnswers(int questionID)
 	{
-		// implement me pls !!
-		return new ArrayList<Answer>();
+		ArrayList<Answer> retval = new ArrayList<Answer>();
+		
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Questions");
+				c.cd(utilities.IdConverter.intToStringId(questionID));
+
+				Vector v = c.ls("Answers");
+
+				// one for ., one for .., so subtract two since we index from 0 
+				int answers = v.size() - 2;
+				c.cd("Answers");
+
+				InputStream is;
+				Scanner scanny;
+
+				String answer = "";
+				String poster = "";
+				int ups = 0;
+
+				for(int i = 0; i < answers; i++)
+				{
+					is = c.get(utilities.IdConverter.intToStringId(i) + ".txt");
+					scanny = new Scanner(is);
+
+					answer = scanny.nextLine();
+					poster = scanny.nextLine();
+					ups = scanny.nextInt();
+
+					scanny.close();
+					is.close();
+					
+					retval.add(new Answer(answer, questionID, i, ups));
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.d("getAnswers", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.d("getAnswers", ex.getMessage());
+		}
+		return retval;
 	}
 
 	// recent questions
