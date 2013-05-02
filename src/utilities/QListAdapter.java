@@ -8,16 +8,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class QListAdapter extends ArrayAdapter<Question>
 {
+	private static final String TAG = "qAdapter";
 	private final Context context;
 	//private final String[] names;
 	//private final String[] questions;
 	private final ArrayList<Question> list;
+	int likeFlag = 0;
+
 
 
 	public QListAdapter(Context context, ArrayList<Question> list)
@@ -40,13 +45,32 @@ public class QListAdapter extends ArrayAdapter<Question>
 		TextView textViewN = (TextView) rowView.findViewById(R.id.name);
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answers);
 		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
-
+		final ImageButton button;
+		
 		Question q = list.get(position);
 
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
 		textViewA.setText(q.getNumAnswers() + "A");
 		textViewL.setText(q.getUps() + "Likes");
+		
+		button = (ImageButton) rowView.findViewById(R.id.likeButton);
+		button.setOnClickListener(new OnClickListener()
+		{
+					public void onClick(View v) {
+						if (likeFlag == 0)
+						{
+							button.setImageResource(R.drawable.starchecked);
+							likeFlag++;
+						}
+						else 
+						{
+							button.setImageResource(R.drawable.starunchecked);
+							likeFlag--;
+						}
+						
+					}
+				});
 
 		return rowView;
 	}
