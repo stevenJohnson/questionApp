@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/icon"
-        android:layout_toLeftOf="@+id/imageButton1"
+        android:layout_toLeftOf="@+id/likeButton"
         android:paddingRight="5dp"
         android:text="0 A" />
 
