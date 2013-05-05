@@ -38,6 +38,18 @@ public class QuestionActivity extends Activity
 		TextView loading = (TextView) findViewById(R.id.answerLoading);
 		loading.setVisibility(TextView.VISIBLE);
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		((ListView) findViewById(R.id.AList)).setAdapter(new AListAdapter(this, new ArrayList<Answer>()));
+		
+		makeLoadingVisible();
+		GetAnswersTask t = new GetAnswersTask();
+		t.execute();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -68,10 +80,13 @@ public class QuestionActivity extends Activity
 
 				//launch the 2nd screen via an Intent
 				Intent intent = new Intent(v.getContext(), AnswerActivity.class);
+				intent.putExtra("questionID", desiredQuestionID);
 				startActivity(intent);
 			}
 		});
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

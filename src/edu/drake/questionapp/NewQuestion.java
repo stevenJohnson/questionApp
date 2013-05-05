@@ -4,9 +4,7 @@ import utilities.PhotoImageAdapter;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class NewQuestion extends Activity {
 

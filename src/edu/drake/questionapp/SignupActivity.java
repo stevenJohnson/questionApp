@@ -1,13 +1,11 @@
 package edu.drake.questionapp;
 
-import utilities.ThisApplication;
 import database.dbmethods;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;

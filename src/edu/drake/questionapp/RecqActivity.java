@@ -1,10 +1,8 @@
 package edu.drake.questionapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import database.dbmethods;
-import edu.drake.questionapp.TopqActivity.GetTopQuestionsTask;
 
 import utilities.QListAdapter;
 import utilities.Question;

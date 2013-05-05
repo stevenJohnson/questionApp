@@ -15,16 +15,15 @@ import database.dbmethods;
 
 public class TempQuestionActivity extends Activity
 {
-
 	private Question toPost;
-	
+
 	String[] names = new String[CategorySorter.getLength()];
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_temp_question);
-		
+
 		//picking the person with a spinner instead of typing ID.
 		final Spinner spinner = (Spinner) findViewById(R.id.namespinner);
 		for (int i= 0; i < CategorySorter.getLength(); i++){
@@ -72,5 +71,4 @@ public class TempQuestionActivity extends Activity
 			if(success) finish();
 		}
 	}
-
 }

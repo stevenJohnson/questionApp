@@ -1124,6 +1124,12 @@ public class dbmethods
 				
 				int numQuestions = tmpRetval.size();
 				
+				if(numQuestions == 0)
+				{
+					// this loser hasn't answered any questions!
+					return new ArrayList<Question>();
+				}
+				
 				if(number > numQuestions)
 				{
 					number = numQuestions;

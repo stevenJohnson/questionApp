@@ -1,10 +1,8 @@
 package edu.drake.questionapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import database.dbmethods;
-import edu.drake.questionapp.TopqActivity.GetTopQuestionsTask;
 
 import utilities.QListAdapter;
 import utilities.Question;
@@ -47,6 +45,14 @@ public class MyQFragment extends Fragment
 	private void makeLoadingVisible()
 	{
 		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
+		loading.setText("Loading your questions...");
+		loading.setVisibility(TextView.VISIBLE);
+	}
+	
+	private void changeLoadingText()
+	{
+		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
+		loading.setText("You have no questions!\n\nPost one using the button on the action bar,\nif you'd like!");
 		loading.setVisibility(TextView.VISIBLE);
 	}
 
@@ -63,14 +69,14 @@ public class MyQFragment extends Fragment
 		final View view = inflater.inflate(R.layout.fragment_my_q, container, false);
 		theView = view;
 		final ListView listview = (ListView) view.findViewById(R.id.Qlist);
-		
+
 		if(myQuestions.size() == 0 && !isDBcall)
 		{
 			makeLoadingVisible();
 			GetMyQuestionsTask t = new GetMyQuestionsTask();
 			t.execute();
 		}
-		
+
 		if(!isDBcall)
 		{
 			listview.setAdapter(new QListAdapter(view.getContext(), myQuestions));
@@ -91,20 +97,20 @@ public class MyQFragment extends Fragment
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
-				
+
 				for(Question q: myQuestions)
 				{
 					Log.d(TAG, "questionID ::: " + q.getQuestionID());
 					Log.d(TAG, "question ::: " + q.getQuestion());
 					Log.d(TAG, "questionID ::: " + q.getNumAnswers());
 				}
-				
+
 				startActivity(intent);
 			}
 		});
 		return view;
 	}
-	
+
 	public class GetMyQuestionsTask extends AsyncTask<Void, Void, Boolean>
 	{
 		@Override
@@ -129,8 +135,15 @@ public class MyQFragment extends Fragment
 			}
 			else
 			{
-				// post an error
-				Log.d("post ex", "ERRORRRRRRRRRRRRRRRRRRR");
+				if(myQuestions.size() == 0)
+				{
+					changeLoadingText();
+				}
+				else
+				{
+					// post an error
+					Log.e("post ex", "connectivity issues... the wrong amount of questions was returned");
+				}
 			}
 			isDBcall = false;
 		}
