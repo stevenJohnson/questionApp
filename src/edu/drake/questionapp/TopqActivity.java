@@ -28,6 +28,7 @@ public class TopqActivity extends Fragment
 	private static final String TAG = "TopqActivity";
 	private ArrayList<Question> myQuestions = new ArrayList<Question>();
 	View theView;
+	boolean isDBcall = false;
 
 	public TopqActivity()
 	{
@@ -36,13 +37,13 @@ public class TopqActivity extends Fragment
 
 	private void makeLoadingInvisible()
 	{
-		TextView loading = (TextView) theView.findViewById(R.id.topQloading);
+		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
 		loading.setVisibility(TextView.INVISIBLE);
 	}
 
 	private void makeLoadingVisible()
 	{
-		TextView loading = (TextView) theView.findViewById(R.id.topQloading);
+		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
 		loading.setVisibility(TextView.VISIBLE);
 	}
 
@@ -58,16 +59,24 @@ public class TopqActivity extends Fragment
 	{
 		final View view = inflater.inflate(R.layout.fragment_topq, container, false);
 		theView = view;
-		ListView listview = (ListView) view.findViewById(R.id.topQlist);
+		ListView listview = (ListView) view.findViewById(R.id.Qlist);
 
-		if(myQuestions.size() == 0)
+		if(myQuestions.size() == 0 && !isDBcall)
 		{
+			isDBcall = true;
 			makeLoadingVisible();
 			GetTopQuestionsTask t = new GetTopQuestionsTask();
 			t.execute();
 		}
 
-		listview.setAdapter(new QListAdapter(view.getContext(), myQuestions));
+		if(!isDBcall)
+		{
+			listview.setAdapter(new QListAdapter(view.getContext(), myQuestions));
+		}
+		else
+		{
+			makeLoadingVisible();
+		}
 
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -80,14 +89,14 @@ public class TopqActivity extends Fragment
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
-				
+
 				for(Question q: myQuestions)
 				{
 					Log.d(TAG, "questionID ::: " + q.getQuestionID());
 					Log.d(TAG, "question ::: " + q.getQuestion());
 					Log.d(TAG, "questionID ::: " + q.getNumAnswers());
 				}
-				
+
 				startActivity(intent);
 			}
 		});
@@ -99,8 +108,8 @@ public class TopqActivity extends Fragment
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{			
-			myQuestions = dbmethods.getTopQuestions(16);
-			return myQuestions.size() <= 16 && myQuestions.size() > 0;
+			myQuestions = dbmethods.getTopQuestions(12);
+			return myQuestions.size() <= 12 && myQuestions.size() > 0;
 		}
 
 		@Override
@@ -108,10 +117,10 @@ public class TopqActivity extends Fragment
 		{
 			if (success)
 			{
-				// remove the loading message 
+				// remove the loading message
 				makeLoadingInvisible();
 
-				ListView listview = (ListView) theView.findViewById(R.id.topQlist);
+				ListView listview = (ListView) theView.findViewById(R.id.Qlist);
 				Log.d("post ex", "about to refresh");
 				listview.setAdapter(new QListAdapter(theView.getContext(), myQuestions));
 				Log.d("post ex", "refreshed");
@@ -121,7 +130,7 @@ public class TopqActivity extends Fragment
 				// post an error
 				Log.d("post ex", "ERRORRRRRRRRRRRRRRRRRRR");
 			}
+			isDBcall = false;
 		}
 	}
-
 }

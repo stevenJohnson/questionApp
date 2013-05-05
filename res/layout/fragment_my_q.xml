@@ -7,9 +7,20 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
-        android:id="@+id/topQlist"
+        android:id="@+id/Qlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
+
+    <TextView
+        android:id="@+id/Qloading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="150dp"
+        android:text="Loading your questions..."
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible" />
 
 </FrameLayout>

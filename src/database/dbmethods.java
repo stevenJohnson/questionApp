@@ -436,40 +436,60 @@ public class dbmethods
 				c.cd("Questions");
 				Log.d("gettopq", "size of questionIDs ::: " + questionIDs.size());
 
+				InputStream is = null;
+				Scanner scanny = null;
+
 				for(int i = 0; i < questionIDs.size(); i++)
 				{
 					Log.d("getQ", utilities.IdConverter.intToStringId(questionIDs.get(i)));
 					c.cd(utilities.IdConverter.intToStringId(questionIDs.get(i)));
-					Log.d("getQ", "changed to the questionid dir " + questionIDs.get(i));
-					InputStream is = c.get("question.txt");
-					Scanner scanny = new Scanner(is);
-					theQuestion = scanny.nextLine();
-					Log.d("getQ", "theQuestion ::: " + theQuestion);
-					answerer = scanny.nextInt();
-					Log.d("getQ", "answerer ::: " + answerer);
-					ups = scanny.nextInt();
-					Log.d("getQ", "ups ::: " + ups);
-					username = scanny.nextLine();
-					username = scanny.nextLine();
-					Log.d("getQ", "username ::: " + username);
 
-					is.close();
-					scanny.close();
+					try
+					{
+						Log.d("getQ", "changed to the questionid dir " + questionIDs.get(i));
+						is = c.get("question.txt");
+						scanny = new Scanner(is);
+						theQuestion = scanny.nextLine();
+						Log.d("getQ", "theQuestion ::: " + theQuestion);
+						answerer = scanny.nextInt();
+						Log.d("getQ", "answerer ::: " + answerer);
+						ups = scanny.nextInt();
+						Log.d("getQ", "ups ::: " + ups);
+						username = scanny.nextLine();
+						username = scanny.nextLine();
+						Log.d("getQ", "username ::: " + username);
 
-					Question q = new Question(questionIDs.get(i), theQuestion, ups, answerer, username);
-					Log.d("getQ", "created question object");
+						Question q = new Question(questionIDs.get(i), theQuestion, ups, answerer, username);
+						Log.d("getQ", "created question object");
 
-					// get current number of answers  
-					Vector v = c.ls("Answers");
-					Log.d("getQ", "did the ls");
+						// get current number of answers
+						try
+						{
+							Vector v = c.ls("Answers");
+							Log.d("getQ", "did the ls");
 
-					// one for ., one for .., so subtract two since we index from 0 
-					int answers = v.size() - 2;
-					Log.d("getQ", "got the size");
-					q.setNumAnswers(answers);
-					Log.d("getQ", "set number of answers to ::: " + answers);
+							// one for ., one for .., so subtract two since we index from 0 
+							int answers = v.size() - 2;
+							Log.d("getQ", "got the size");
+							q.setNumAnswers(answers);
+							Log.d("getQ", "set number of answers to ::: " + answers);
+						}
+						catch(Exception ex)
+						{
+							q.setNumAnswers(0);
+						}						
 
-					retval.add(q);
+						retval.add(q);
+					}
+					catch(Exception ex)
+					{
+						Log.e("getQ", "had a silly error ::: " + questionIDs.get(i));
+					}
+					finally
+					{
+						is.close();
+						scanny.close();
+					}
 
 					Log.d("getQ", "made it to end of loop");
 					c.cd("..");
@@ -556,8 +576,8 @@ public class dbmethods
 					// grab first number questions
 					int thisQuestionsLikes = 0;
 
-					InputStream is;
-					Scanner scanny;
+					InputStream is = null;
+					Scanner scanny = null;
 					int trash; String garbage;
 
 					Log.d("gettopq", "number ::: " + number);
@@ -567,18 +587,27 @@ public class dbmethods
 						c.cd(utilities.IdConverter.intToStringId(i));
 						Log.d("gettopq", "in first dir");
 
-						is = c.get("question.txt");
-						scanny = new Scanner(is);
-						garbage = scanny.nextLine();
-						trash = scanny.nextInt();
-						thisQuestionsLikes = scanny.nextInt();
+						try
+						{
+							is = c.get("question.txt");
+							scanny = new Scanner(is);
+							garbage = scanny.nextLine();
+							trash = scanny.nextInt();
+							thisQuestionsLikes = scanny.nextInt();
 
-						scanny.close();
-						is.close();
+							Log.d("gettopq", "read in a q " + i);
 
-						Log.d("gettopq", "read in a q " + i);
-
-						retval.add(new MiniQuestion(i, thisQuestionsLikes));
+							retval.add(new MiniQuestion(i, thisQuestionsLikes));
+						}
+						catch(Exception ex)
+						{
+							Log.d("gettopq", "exception while reading in a file... " + i);
+						}
+						finally
+						{
+							scanny.close();
+							is.close();
+						}
 						c.cd("..");
 					}
 
@@ -940,7 +969,7 @@ public class dbmethods
 	public static ArrayList<Answer> getAnswers(int questionID)
 	{
 		ArrayList<Answer> retval = new ArrayList<Answer>();
-		
+
 		JSch jsch = new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -986,7 +1015,7 @@ public class dbmethods
 
 					scanny.close();
 					is.close();
-					
+
 					retval.add(new Answer(answer, questionID, i, ups));
 				}
 			}
@@ -1003,5 +1032,117 @@ public class dbmethods
 	}
 
 	// recent questions
+	public static ArrayList<Question> getRecentQuestions(int number)
+	{
+		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
+		int minLikes = 0;
+
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				Vector v = c.ls("Questions");
+
+				// one for ., one for .., so subtract two since we index from 0 
+				int numQuestions = v.size() - 2;
+				
+				if(number > numQuestions)
+				{
+					number = numQuestions;
+				}
+				
+				for(int i = numQuestions - number; i < numQuestions; i++)
+				{
+					tmpRetval.add(i);
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.e("getRecentQuestions", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.e("getRecentQuestions", ex.getMessage());
+		}
+		return getQuestions(tmpRetval);
+	}
+	
 	// my questions
+	public static ArrayList<Question> getMyQuestions(int number, String appUser)
+	{
+		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
+		ArrayList<Integer> revisedTmpRetval = new ArrayList<Integer>();
+		int minLikes = 0;
+
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				c.cd("WhatWould");
+				c.cd("Users");
+				c.cd(appUser);
+				
+				// read the question ids from questions.txt
+				InputStream is = c.get("questions.txt");
+				Scanner scanny = new Scanner(is);
+				String s = "";
+				while(scanny.hasNext())
+				{
+					s = scanny.nextLine();
+					tmpRetval.add(Integer.parseInt(s));
+				}
+				scanny.close();
+				is.close();
+				
+				int numQuestions = tmpRetval.size();
+				
+				if(number > numQuestions)
+				{
+					number = numQuestions;
+				}
+				
+				for(int i = numQuestions - number; i < numQuestions; i++)
+				{
+					revisedTmpRetval.add(tmpRetval.get(i));
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.e("getMyQuestions", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.e("getMyQuestions", ex.getMessage());
+		}
+		return getQuestions(revisedTmpRetval);
+	}
 }

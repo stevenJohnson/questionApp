@@ -23,8 +23,6 @@ public class QListAdapter extends ArrayAdapter<Question>
 	private final ArrayList<Question> list;
 	int likeFlag = 0;
 
-
-
 	public QListAdapter(Context context, ArrayList<Question> list)
 	{
 		super(context, R.layout.rowlayout, list);
@@ -54,7 +52,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		textViewA.setText(q.getNumAnswers() + "A");
 		textViewL.setText(q.getUps() + "Likes");
 		
-		button = (ImageButton) rowView.findViewById(R.id.likeButton);
+		button = (ImageButton) rowView.findViewById(R.id.likeButton);/*
 		button.setOnClickListener(new OnClickListener()
 		{
 					public void onClick(View v) {
@@ -71,7 +69,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 						
 					}
 				});
-
+*/
 		return rowView;
 	}
 } 
