@@ -84,9 +84,7 @@ public class QuestionActivity extends Activity
 				startActivity(intent);
 			}
 		});
-	}
-	
-	
+	}	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

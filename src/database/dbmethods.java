@@ -1065,10 +1065,15 @@ public class dbmethods
 					number = numQuestions;
 				}
 				
-				for(int i = numQuestions - number; i < numQuestions; i++)
+				for(int i = numQuestions - 1; i >= numQuestions - number; i++)
 				{
 					tmpRetval.add(i);
 				}
+				/*
+				for(int i = numQuestions - number; i < numQuestions; i++)
+				{
+					tmpRetval.add(i);
+				}*/
 			}
 			catch(Exception ex)
 			{
