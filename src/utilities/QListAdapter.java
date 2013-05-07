@@ -42,12 +42,14 @@ public class QListAdapter extends ArrayAdapter<Question>
 		TextView textViewN = (TextView) rowView.findViewById(R.id.name);
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answers);
 		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
+		TextView textViewAN = (TextView) rowView.findViewById(R.id.answerername);
 		final ImageButton button;
 		
 		Question q = list.get(position);
 
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
+		textViewAN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
 		textViewA.setText(q.getNumAnswers() + "A");
 		textViewL.setText(q.getUps() + "Likes");
 		
