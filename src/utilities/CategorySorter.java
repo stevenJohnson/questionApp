@@ -141,7 +141,7 @@ public class CategorySorter
 		R.drawable.anyone,
 		R.drawable.kesha,
 		R.drawable.confucius,
-		R.drawable.lincoln,
+		R.drawable.abe,
 		R.drawable.obama,
 		R.drawable.gaga,
 		R.drawable.armstrong,
