@@ -102,7 +102,6 @@ public class QuestionActivity extends Activity
 		{
 			// post the loading message
 			TextView loading = (TextView) findViewById(R.id.answerLoading);
-			loading.setVisibility(TextView.VISIBLE);
 
 			myAnswers = dbmethods.getAnswers(desiredQuestionID);
 			return true;
