@@ -94,7 +94,7 @@ public class TopqActivity extends Fragment
 				{
 					Log.d(TAG, "questionID ::: " + q.getQuestionID());
 					Log.d(TAG, "question ::: " + q.getQuestion());
-					Log.d(TAG, "questionID ::: " + q.getNumAnswers());
+					Log.d(TAG, "num answers ::: " + q.getNumAnswers());
 				}
 
 				startActivity(intent);

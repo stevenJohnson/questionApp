@@ -460,6 +460,9 @@ public class dbmethods
 
 						Question q = new Question(questionIDs.get(i), theQuestion, ups, answerer, username);
 						Log.d("getQ", "created question object");
+						
+						is.close();
+						scanny.close();
 
 						// get current number of answers
 						try
