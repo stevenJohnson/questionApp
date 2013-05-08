@@ -306,7 +306,6 @@ public class dbmethods
 		return false;
 	}
 
-	// TODO::: test this method once we have a method to display questions and answers
 	public static boolean postAnswer(Answer a, Context context)
 	{
 		String questionID = utilities.IdConverter.intToStringId(a.getQuestionID());
@@ -1091,7 +1090,6 @@ public class dbmethods
 	{
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
 		ArrayList<Integer> revisedTmpRetval = new ArrayList<Integer>();
-		int minLikes = 0;
 
 		JSch jsch = new JSch();
 		String user="asapp";
@@ -1138,8 +1136,13 @@ public class dbmethods
 				{
 					number = numQuestions;
 				}
-				
+				/*
 				for(int i = numQuestions - number; i < numQuestions; i++)
+				{
+					revisedTmpRetval.add(tmpRetval.get(i));
+				}*/
+				
+				for(int i = numQuestions - 1; i >= numQuestions - number; i--)
 				{
 					revisedTmpRetval.add(tmpRetval.get(i));
 				}

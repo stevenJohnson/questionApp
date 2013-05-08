@@ -3,6 +3,7 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 
 import database.dbmethods;
+import edu.drake.questionapp.RecqActivity.GetRecentQuestionsTask;
 
 import utilities.QListAdapter;
 import utilities.Question;
@@ -110,6 +111,19 @@ public class MyQFragment extends Fragment
 		});
 		return view;
 	}
+	
+	@Override
+	public void onResume()
+	{
+		Log.d(TAG, "we is be in onResume in myQ");
+		super.onResume();
+		if(((ThisApplication)theView.getContext().getApplicationContext()).getPosted() && !isDBcall)
+		{
+			//makeLoadingVisible();
+			GetMyQuestionsTask t = new GetMyQuestionsTask();
+			t.execute();
+		}
+	}
 
 	public class GetMyQuestionsTask extends AsyncTask<Void, Void, Boolean>
 	{
@@ -127,6 +141,8 @@ public class MyQFragment extends Fragment
 			{
 				// remove the loading message
 				makeLoadingInvisible();
+				
+				((ThisApplication)theView.getContext().getApplicationContext()).setPosted(false);
 
 				ListView listview = (ListView) theView.findViewById(R.id.Qlist);
 				Log.d("post ex", "about to refresh");

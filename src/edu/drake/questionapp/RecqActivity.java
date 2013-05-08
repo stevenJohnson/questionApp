@@ -6,6 +6,7 @@ import database.dbmethods;
 
 import utilities.QListAdapter;
 import utilities.Question;
+import utilities.ThisApplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class RecqActivity extends Fragment
 	{
 		// Required empty public constructor
 	}
-	
+
 	private void makeLoadingInvisible()
 	{
 		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
@@ -46,7 +47,7 @@ public class RecqActivity extends Fragment
 		TextView loading = (TextView) theView.findViewById(R.id.Qloading);
 		loading.setVisibility(TextView.VISIBLE);
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
@@ -60,9 +61,9 @@ public class RecqActivity extends Fragment
 		// Inflate the layout for this fragment
 		final View view = inflater.inflate(R.layout.fragment_recq, container, false);
 		theView = view;
-		
+
 		final ListView listview = (ListView) view.findViewById(R.id.Qlist);
-		
+
 		if(myQuestions.size() == 0 && !isDBcall)
 		{
 			makeLoadingVisible();
@@ -78,30 +79,43 @@ public class RecqActivity extends Fragment
 		{
 			makeLoadingVisible();
 		}
-	  
+
 		listview.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> arg1, View arg2, int pos, long arg3)
 			{
 				Log.d(TAG, "" + pos);
-				
+
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
-				
+
 				for(Question q: myQuestions)
 				{
 					Log.d(TAG, "questionID ::: " + q.getQuestionID());
 					Log.d(TAG, "question ::: " + q.getQuestion());
 					Log.d(TAG, "questionID ::: " + q.getNumAnswers());
 				}
-				
+
 				startActivity(intent);
 			}
 		});
 		return view;
+	}
+
+	@Override
+	public void onResume()
+	{
+		Log.d(TAG, "we is be in onResume in reQ");
+		super.onResume();
+		if(((ThisApplication)theView.getContext().getApplicationContext()).getPosted() && !isDBcall)
+		{
+			//makeLoadingVisible();
+			GetRecentQuestionsTask t = new GetRecentQuestionsTask();
+			t.execute();
+		}
 	}
 
 	public class GetRecentQuestionsTask extends AsyncTask<Void, Void, Boolean>
@@ -120,6 +134,8 @@ public class RecqActivity extends Fragment
 			{
 				// remove the loading message
 				makeLoadingInvisible();
+
+				((ThisApplication)theView.getContext().getApplicationContext()).setPosted(false);
 
 				ListView listview = (ListView) theView.findViewById(R.id.Qlist);
 				Log.d("post ex", "about to refresh");

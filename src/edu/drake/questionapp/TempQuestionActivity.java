@@ -44,6 +44,7 @@ public class TempQuestionActivity extends Activity
 						toPost = new Question(question, personId, appUser);
 						PostQuestionTask pqt = new PostQuestionTask();
 						pqt.execute();
+						((ThisApplication)getApplicationContext()).setPosted(true);
 					}
 				});
 	}
