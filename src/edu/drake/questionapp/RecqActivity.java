@@ -30,6 +30,7 @@ public class RecqActivity extends Fragment
 	private ArrayList<Question> myQuestions = new ArrayList<Question>();
 	private View theView;
 	private boolean isDBcall = false;
+	private String appUser = "";
 
 	public RecqActivity()
 	{
@@ -52,6 +53,7 @@ public class RecqActivity extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		appUser = ((ThisApplication) getActivity().getApplication()).getUsername();
 	}
 
 	@Override
@@ -123,7 +125,7 @@ public class RecqActivity extends Fragment
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{			
-			myQuestions = dbmethods.getRecentQuestions(12);
+			myQuestions = dbmethods.getRecentQuestions(12, appUser);
 			return myQuestions.size() <= 12 && myQuestions.size() > 0;
 		}
 

@@ -393,12 +393,7 @@ public class dbmethods
 		return true;
 	}
 
-	public static ArrayList<Question> getQuestions(int questionID)
-	{
-		return getQuestions(new ArrayList<Integer>(questionID));
-	}
-
-	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs)
+	public static ArrayList<Question> getQuestions(ArrayList<Integer> questionIDs, String appUser)
 	{
 		ArrayList<Question> retval = new ArrayList<Question>();
 		String theQuestion = "";
@@ -460,7 +455,7 @@ public class dbmethods
 
 						Question q = new Question(questionIDs.get(i), theQuestion, ups, answerer, username);
 						Log.d("getQ", "created question object");
-						
+
 						is.close();
 						scanny.close();
 
@@ -496,6 +491,34 @@ public class dbmethods
 					Log.d("getQ", "made it to end of loop");
 					c.cd("..");
 				}
+				
+				c.cd("../Users");
+				c.cd(appUser);
+				c.cd("Likes");
+				
+				is = c.get("likedQ.txt");
+				scanny = new Scanner(is);
+				ArrayList<Integer> likedQs = new ArrayList<Integer>();
+
+				while(scanny.hasNext())
+				{
+					likedQs.add(Integer.parseInt(scanny.nextLine()));
+				}
+				scanny.close();
+				is.close();
+				
+				for(Question q : retval)
+				{
+					// check if this q's ID is in likedQs
+					for(int i : likedQs)
+					{
+						if(i == q.getQuestionID())
+						{
+							q.setHasUserLiked(true);
+							break;
+						}
+					}
+				}
 			}
 			catch(Exception ex)
 			{
@@ -516,6 +539,7 @@ public class dbmethods
 			Log.d("end of getquestions", q.getQuestion());
 			Log.d("end of getquestions", "answerer ::: " + q.getAnswerers());
 			Log.d("end of getquestions", "likes ::: " + q.getUps());
+			Log.d("end of getquestions", "does user like ::: " + q.getHasUserLiked());
 		}
 
 		Log.d("end of getquestions", "return time");
@@ -523,10 +547,9 @@ public class dbmethods
 		return retval;
 	}
 
-	public static ArrayList<Question> getTopQuestions(int number)
+	public static ArrayList<Question> getTopQuestions(int number, String appUser)
 	{
 		Log.d("gettopq", "top of top q");
-		// dictionary of likes, questionid
 		ArrayList<MiniQuestion> retval = new ArrayList<MiniQuestion>();
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
 		int minLikes = 0;
@@ -701,7 +724,7 @@ public class dbmethods
 			Log.d("getTopQuestions", ex.getMessage());
 		}
 
-		return getQuestions(tmpRetval);
+		return getQuestions(tmpRetval, appUser);
 	}
 
 	// untested
@@ -1034,7 +1057,7 @@ public class dbmethods
 	}
 
 	// recent questions
-	public static ArrayList<Question> getRecentQuestions(int number)
+	public static ArrayList<Question> getRecentQuestions(int number, String appUser)
 	{
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
 
@@ -1085,7 +1108,7 @@ public class dbmethods
 		{
 			Log.e("getRecentQuestions", ex.getMessage());
 		}
-		return getQuestions(tmpRetval);
+		return getQuestions(tmpRetval, appUser);
 	}
 
 	// my questions
@@ -1159,11 +1182,11 @@ public class dbmethods
 		{
 			Log.e("getMyQuestions", ex.getMessage());
 		}
-		return getQuestions(revisedTmpRetval);
+		return getQuestions(revisedTmpRetval, appUser);
 	}
 
 	// category questions
-	public static ArrayList<Question> getCategoryQuestions(int categoryID, int max)
+	public static ArrayList<Question> getCategoryQuestions(int categoryID, int max, String appUser)
 	{
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
 
@@ -1234,6 +1257,6 @@ public class dbmethods
 		{
 			Log.e("getCategoryQuestions", ex.getMessage());
 		}
-		return tmpRetval.size() == 0 ? new ArrayList<Question>() : getQuestions(tmpRetval);
+		return tmpRetval.size() == 0 ? new ArrayList<Question>() : getQuestions(tmpRetval, appUser);
 	}
 }

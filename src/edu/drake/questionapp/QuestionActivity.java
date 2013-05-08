@@ -98,9 +98,6 @@ public class QuestionActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			// post the loading message
-			TextView loading = (TextView) findViewById(R.id.answerLoading);
-
 			myAnswers = dbmethods.getAnswers(desiredQuestionID);
 			return true;
 		}

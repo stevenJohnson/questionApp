@@ -3,7 +3,6 @@ package edu.drake.questionapp;
 import java.util.ArrayList;
 
 import database.dbmethods;
-import edu.drake.questionapp.RecqActivity.GetRecentQuestionsTask;
 
 import utilities.QListAdapter;
 import utilities.Question;

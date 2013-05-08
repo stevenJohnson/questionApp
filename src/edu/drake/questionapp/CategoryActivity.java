@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import database.dbmethods;
 
-import edu.drake.questionapp.TopqActivity.GetTopQuestionsTask;
-
 import utilities.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +23,7 @@ public class CategoryActivity extends Activity
 	private boolean isDBcall = false;
 	private int personID = 0;
 	private View theView;
+	private String appUser = "";
 	
 	private void makeLoadingInvisible()
 	{
@@ -50,6 +49,8 @@ public class CategoryActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_category);
+		
+		appUser = ((ThisApplication) getApplication()).getUsername();
 		
 		theView = findViewById(android.R.id.content);
 
@@ -104,7 +105,7 @@ public class CategoryActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{			
-			myQuestions = dbmethods.getCategoryQuestions(personID, 12);
+			myQuestions = dbmethods.getCategoryQuestions(personID, 12, appUser);
 			return myQuestions.size() <= 12 && myQuestions.size() > 0;
 		}
 

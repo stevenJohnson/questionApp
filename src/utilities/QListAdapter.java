@@ -51,6 +51,10 @@ public class QListAdapter extends ArrayAdapter<Question>
 		textViewN.setText(q.getUser());
 		textViewAN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
 		textViewA.setText(q.getNumAnswers() + "A");
+		
+		// TODO ::: set the status of the button with this thangggg
+		if(q.getHasUserLiked()) textViewA.setText(textViewA.getText() + "*");
+		
 		textViewL.setText(q.getUps() + "Likes");
 		imageView.setImageResource(CategorySorter.getDrawable(q.getAnswerers().ordinal()));
 		

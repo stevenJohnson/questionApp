@@ -6,6 +6,7 @@ import database.dbmethods;
 
 import utilities.QListAdapter;
 import utilities.Question;
+import utilities.ThisApplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class TopqActivity extends Fragment
 	private ArrayList<Question> myQuestions = new ArrayList<Question>();
 	private View theView;
 	private boolean isDBcall = false;
+	private String appUser = "";
 
 	public TopqActivity()
 	{
@@ -51,6 +53,7 @@ public class TopqActivity extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		appUser = ((ThisApplication) getActivity().getApplication()).getUsername();
 	}
 
 	@Override
@@ -108,7 +111,7 @@ public class TopqActivity extends Fragment
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{			
-			myQuestions = dbmethods.getTopQuestions(12);
+			myQuestions = dbmethods.getTopQuestions(12, appUser);
 			return myQuestions.size() <= 12 && myQuestions.size() > 0;
 		}
 
