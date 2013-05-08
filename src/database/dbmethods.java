@@ -1035,7 +1035,6 @@ public class dbmethods
 	public static ArrayList<Question> getRecentQuestions(int number)
 	{
 		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
-		int minLikes = 0;
 
 		JSch jsch = new JSch();
 		String user="asapp";
@@ -1065,7 +1064,7 @@ public class dbmethods
 					number = numQuestions;
 				}
 				
-				for(int i = numQuestions - 1; i >= numQuestions - number; i++)
+				for(int i = numQuestions - 1; i >= numQuestions - number; i--)
 				{
 					tmpRetval.add(i);
 				}
