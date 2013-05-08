@@ -27,8 +27,8 @@ public class TopqActivity extends Fragment
 {
 	private static final String TAG = "TopqActivity";
 	private ArrayList<Question> myQuestions = new ArrayList<Question>();
-	View theView;
-	boolean isDBcall = false;
+	private View theView;
+	private boolean isDBcall = false;
 
 	public TopqActivity()
 	{

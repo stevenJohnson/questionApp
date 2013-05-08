@@ -52,7 +52,7 @@ public class CategorySorter
 		}
 		else if(Answerer.Ghandi.ordinal() == answererOrdinal)
 		{
-			return "Ghandi";
+			return "Gandhi";
 		}
 		else if(Answerer.HClinton.ordinal() == answererOrdinal)
 		{

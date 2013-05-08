@@ -4,13 +4,25 @@
     android:layout_height="match_parent"
     tools:context=".CategoryActivity" >
 
+    <ListView
+        android:id="@+id/Qlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </ListView>
+
     <TextView
-        android:id="@+id/categoryQueryText"
-        android:layout_width="wrap_content"
+        android:id="@+id/Qloading"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:text="@string/hello_world" />
+        android:gravity="center"
+        android:paddingTop="150dp"
+        android:text="Loading questions..."
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible" />
 
 </RelativeLayout>

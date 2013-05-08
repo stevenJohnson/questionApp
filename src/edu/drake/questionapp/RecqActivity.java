@@ -28,8 +28,8 @@ public class RecqActivity extends Fragment
 {
 	private static final String TAG = "RecqActivity";
 	private ArrayList<Question> myQuestions = new ArrayList<Question>();
-	View theView;
-	boolean isDBcall = false;
+	private View theView;
+	private boolean isDBcall = false;
 
 	public RecqActivity()
 	{

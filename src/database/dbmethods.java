@@ -1057,12 +1057,12 @@ public class dbmethods
 
 				// one for ., one for .., so subtract two since we index from 0 
 				int numQuestions = v.size() - 2;
-				
+
 				if(number > numQuestions)
 				{
 					number = numQuestions;
 				}
-				
+
 				for(int i = numQuestions - 1; i >= numQuestions - number; i--)
 				{
 					tmpRetval.add(i);
@@ -1084,7 +1084,7 @@ public class dbmethods
 		}
 		return getQuestions(tmpRetval);
 	}
-	
+
 	// my questions
 	public static ArrayList<Question> getMyQuestions(int number, String appUser)
 	{
@@ -1111,7 +1111,7 @@ public class dbmethods
 				c.cd("WhatWould");
 				c.cd("Users");
 				c.cd(appUser);
-				
+
 				// read the question ids from questions.txt
 				InputStream is = c.get("questions.txt");
 				Scanner scanny = new Scanner(is);
@@ -1123,15 +1123,15 @@ public class dbmethods
 				}
 				scanny.close();
 				is.close();
-				
+
 				int numQuestions = tmpRetval.size();
-				
+
 				if(numQuestions == 0)
 				{
 					// this loser hasn't answered any questions!
 					return new ArrayList<Question>();
 				}
-				
+
 				if(number > numQuestions)
 				{
 					number = numQuestions;
@@ -1141,7 +1141,7 @@ public class dbmethods
 				{
 					revisedTmpRetval.add(tmpRetval.get(i));
 				}*/
-				
+
 				for(int i = numQuestions - 1; i >= numQuestions - number; i--)
 				{
 					revisedTmpRetval.add(tmpRetval.get(i));
@@ -1157,5 +1157,80 @@ public class dbmethods
 			Log.e("getMyQuestions", ex.getMessage());
 		}
 		return getQuestions(revisedTmpRetval);
+	}
+
+	// category questions
+	public static ArrayList<Question> getCategoryQuestions(int categoryID, int max)
+	{
+		ArrayList<Integer> tmpRetval = new ArrayList<Integer>();
+
+		JSch jsch = new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String passy="9Gj24!L6c848FG$";
+		int port=22;
+
+		try
+		{
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(passy);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try
+			{
+				// get the question ID's of the questions posed for our characterID
+				c.cd("WhatWould");
+				Vector v = c.ls("Questions");
+
+				c.cd("Questions");
+
+				// one for ., one for .., so subtract two since we index from 0
+				int numQuestions = v.size() - 2;
+
+				InputStream is = null;
+				Scanner scanny = null;
+				String garbage = "";
+				int thisAnswerer = -1;
+
+				for(int i = numQuestions -1; i > -1; i--)
+				{
+					c.cd(utilities.IdConverter.intToStringId(i));
+
+					try
+					{
+						is = c.get("question.txt");
+						scanny = new Scanner(is);
+						garbage = scanny.nextLine();
+						thisAnswerer = scanny.nextInt();
+
+						is.close();
+						scanny.close();
+
+						if(thisAnswerer == categoryID)
+						{
+							tmpRetval.add(i);
+						}
+					}
+					catch(Exception ex)
+					{
+						Log.e("getCategoryQuestions", "silly error ::: " + ex.getMessage());
+					}
+					if(tmpRetval.size() == max) break;
+					c.cd("..");
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.e("getCategoryQuestions", ex.getMessage());
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.e("getCategoryQuestions", ex.getMessage());
+		}
+		return tmpRetval.size() == 0 ? new ArrayList<Question>() : getQuestions(tmpRetval);
 	}
 }
