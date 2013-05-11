@@ -92,6 +92,10 @@ public class RecqActivity extends Fragment
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
+				intent.putExtra("question", myQuestions.get(pos).getQuestion());
+				intent.putExtra("likes", myQuestions.get(pos).getUps());
+				intent.putExtra("person", myQuestions.get(pos).getAnswerers().ordinal());
+				intent.putExtra("user", myQuestions.get(pos).getUser());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
 
 				for(Question q: myQuestions)

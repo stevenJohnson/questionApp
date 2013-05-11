@@ -87,6 +87,10 @@ public class CategoryActivity extends Activity
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
+				intent.putExtra("question", myQuestions.get(pos).getQuestion());
+				intent.putExtra("likes", myQuestions.get(pos).getUps());
+				intent.putExtra("person", myQuestions.get(pos).getAnswerers().ordinal());
+				intent.putExtra("user", myQuestions.get(pos).getUser());
 				startActivity(intent);
 			}
 		});

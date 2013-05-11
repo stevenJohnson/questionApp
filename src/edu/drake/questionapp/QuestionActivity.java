@@ -6,6 +6,7 @@ import database.dbmethods;
 
 import utilities.AListAdapter;
 import utilities.Answer;
+import utilities.CategorySorter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -59,6 +61,18 @@ public class QuestionActivity extends Activity
 		myContext = getBaseContext();
 		
 		desiredQuestionID = getIntent().getExtras().getInt("questionID");
+		//added new intents to fill these
+		TextView textViewQ = (TextView) findViewById(R.id.question);
+		ImageView imageView = (ImageView) findViewById(R.id.icon);
+		TextView textViewN = (TextView) findViewById(R.id.name);
+		TextView textViewL = (TextView) findViewById(R.id.likes);
+		TextView textViewAN = (TextView) findViewById(R.id.answerername);
+		
+		textViewQ.setText(getIntent().getExtras().getString("question"));
+		textViewN.setText(getIntent().getExtras().getString("user"));
+		textViewL.setText(getIntent().getExtras().getInt("likes") + " likes");
+		textViewAN.setText(CategorySorter.getCharacterName(getIntent().getExtras().getInt("person")));
+		imageView.setImageResource(CategorySorter.getDrawable(getIntent().getExtras().getInt("person")));
 
 		final ListView listview = (ListView) findViewById(R.id.AList);
 

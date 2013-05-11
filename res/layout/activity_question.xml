@@ -22,7 +22,7 @@
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/likes"
         android:layout_centerHorizontal="true"
         android:text="Answer this question" />
 
@@ -40,22 +40,76 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/needaccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="17dp"
-        android:text="name" />
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="3dp"
+        android:layout_x="4dp"
+        android:layout_y="2dp"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/needaccount"
-        android:text="Could you gimme an answer to this question?"
+        android:layout_alignLeft="@+id/question"
+        android:layout_alignParentTop="true"
+        android:text="name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/icon"
+        android:text="Question" />
+
+    <TextView
+        android:id="@+id/likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/likeButton"
+        android:layout_alignParentRight="true"
+        android:text="0 likes" />
+
+    <TextView
+        android:id="@+id/whatwould"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/question"
+        android:layout_below="@+id/question"
+        android:textColor="#C0C0C0"
+        android:text="What would " />
+
+    <ImageButton
+        android:id="@+id/likeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/whatwould"
+        android:layout_toLeftOf="@+id/likes"
+        android:src="@drawable/starunchecked" />
+
+    <TextView
+        android:id="@+id/say"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_toRightOf="@+id/answerername"
+        android:textColor="#C0C0C0"
+        android:text=" say?" />
+
+    <TextView
+        android:id="@+id/answerername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_toRightOf="@+id/whatwould"
+        android:textColor="#C0C0C0"
+        android:text="___" />
 
 </RelativeLayout>
