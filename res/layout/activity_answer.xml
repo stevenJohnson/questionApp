@@ -7,35 +7,62 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AnswerActivity" >
+    
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="3dp"
+        android:layout_x="4dp"
+        android:layout_y="2dp"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="name" />
-
-    <TextView
-        android:id="@+id/needaccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:text="Could you gimme an answer to this question?"
+        android:layout_alignLeft="@+id/question"
+        android:layout_alignParentTop="true"
+        android:text="name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/personid"
+    <TextView
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/needaccount"
-        android:layout_alignRight="@+id/needaccount"
-        android:layout_below="@+id/needaccount"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:minLines="3" >
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/icon"
+        android:text="Question" />
+    
+    <TextView
+        android:id="@+id/whatwould"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/question"
+        android:layout_below="@+id/question"
+        android:textColor="#C0C0C0"
+        android:text="What would " />
+    
+    <TextView
+        android:id="@+id/say"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_toRightOf="@+id/answerername"
+        android:textColor="#C0C0C0"
+        android:text=" say?" />
 
-        <requestFocus />
-    </EditText>
+    <TextView
+        android:id="@+id/answerername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_toRightOf="@+id/whatwould"
+        android:textColor="#C0C0C0"
+        android:text="___" />
 
     <Button
         android:id="@+id/submit"
@@ -44,5 +71,15 @@
         android:layout_alignRight="@+id/personid"
         android:layout_below="@+id/personid"
         android:text="Post answer" />
+
+    <EditText
+        android:id="@+id/personid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:minLines="3" />
 
 </RelativeLayout>

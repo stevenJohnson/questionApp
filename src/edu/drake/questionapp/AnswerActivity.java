@@ -2,11 +2,13 @@ package edu.drake.questionapp;
 
 import database.dbmethods;
 import utilities.Answer;
+import utilities.CategorySorter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AnswerActivity extends Activity
@@ -21,6 +23,16 @@ public class AnswerActivity extends Activity
 		setContentView(R.layout.activity_answer);
 		
 		questionID = getIntent().getExtras().getInt("questionID");
+		
+		TextView textViewQ = (TextView) findViewById(R.id.question);
+		ImageView imageView = (ImageView) findViewById(R.id.icon);
+		TextView textViewN = (TextView) findViewById(R.id.name);
+		TextView textViewAN = (TextView) findViewById(R.id.answerername);
+		
+		textViewQ.setText(getIntent().getExtras().getString("question"));
+		textViewN.setText(getIntent().getExtras().getString("user"));
+		textViewAN.setText(getIntent().getExtras().getString("personname"));
+		imageView.setImageResource(getIntent().getExtras().getInt("persondrawable"));
 		
 		findViewById(R.id.submit).setOnClickListener(
 				new View.OnClickListener() {

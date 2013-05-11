@@ -95,6 +95,10 @@ public class QuestionActivity extends Activity
 				//launch the 2nd screen via an Intent
 				Intent intent = new Intent(v.getContext(), AnswerActivity.class);
 				intent.putExtra("questionID", desiredQuestionID);
+				intent.putExtra("question", getIntent().getExtras().getString("question"));
+				intent.putExtra("personname", CategorySorter.getCharacterName(getIntent().getExtras().getInt("person")));
+				intent.putExtra("persondrawable", CategorySorter.getDrawable(getIntent().getExtras().getInt("person")));
+				intent.putExtra("user", getIntent().getExtras().getString("user"));
 				startActivity(intent);
 			}
 		});
