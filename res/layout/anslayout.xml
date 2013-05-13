@@ -4,41 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="3dp"
-        android:layout_x="4dp"
-        android:layout_y="2dp"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/answer"
-        android:layout_alignParentTop="true"
-        android:text="name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <TextView
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_toRightOf="@+id/icon"
+        android:lines="3"
         android:text="Answer" />
 
     <TextView
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/icon"
+        android:layout_alignBottom="@+id/answer"
         android:layout_alignParentRight="true"
         android:text="0 likes" />
+
+    <ImageButton
+        android:id="@+id/likeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/likes"
+        android:layout_toLeftOf="@+id/likes"
+        android:src="@drawable/starunchecked" />
 
 </RelativeLayout>

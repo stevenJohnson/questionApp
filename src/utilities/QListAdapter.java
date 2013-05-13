@@ -53,7 +53,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(q.getUser());
 		textViewAN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
-		textViewA.setText(q.getNumAnswers() + "A");
+		textViewA.setText(q.getNumAnswers() + " A");
 		
 		button = (ImageButton) rowView.findViewById(R.id.likeButton);
 		// TODO ::: set the status of the button with this thangggg
