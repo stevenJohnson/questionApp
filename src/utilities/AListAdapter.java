@@ -26,6 +26,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 	int likeFlag = 0;
 	int qid;
 	int aid;
+	Context appContext;
 
 	public AListAdapter(Context context, ArrayList<Answer> list)
 	{
@@ -37,6 +38,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		//appContext = ((ThisApplication) getContext());
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.anslayout, parent, false);

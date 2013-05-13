@@ -27,6 +27,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 	private final ArrayList<Question> list;
 	int likeFlag = 0;
 	int qid;
+	Context appContext;
 
 	public QListAdapter(Context context, ArrayList<Question> list)
 	{
@@ -38,6 +39,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		//appContext = ((ThisApplication) getContext());
 		Log.d("ASDF", "getting to getView");
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

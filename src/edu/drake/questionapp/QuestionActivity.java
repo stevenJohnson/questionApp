@@ -170,7 +170,7 @@ public class QuestionActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeQuestion(desiredQuestionID, myContext);
+			dbmethods.likeQuestion(desiredQuestionID, getApplicationContext());
 			return true;
 		}
 
