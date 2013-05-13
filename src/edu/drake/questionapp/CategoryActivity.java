@@ -91,6 +91,7 @@ public class CategoryActivity extends Activity
 				intent.putExtra("likes", myQuestions.get(pos).getUps());
 				intent.putExtra("person", myQuestions.get(pos).getAnswerers().ordinal());
 				intent.putExtra("user", myQuestions.get(pos).getUser());
+				intent.putExtra("hasLiked", myQuestions.get(pos).getHasUserLiked());
 				startActivity(intent);
 			}
 		});

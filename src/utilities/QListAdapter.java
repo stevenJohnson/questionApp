@@ -2,16 +2,19 @@ package utilities;
 
 import java.util.ArrayList;
 
-import edu.drake.questionapp.R;
+import database.dbmethods;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.drake.questionapp.R;
 
 public class QListAdapter extends ArrayAdapter<Question>
 {
@@ -45,20 +48,20 @@ public class QListAdapter extends ArrayAdapter<Question>
 		TextView textViewAN = (TextView) rowView.findViewById(R.id.answerername);
 		final ImageButton button;
 		
-		Question q = list.get(position);
+		final Question q = list.get(position);
 
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(q.getUser());
 		textViewAN.setText(CategorySorter.getCharacterName(q.getAnswerers().ordinal()));
 		textViewA.setText(q.getNumAnswers() + "A");
 		
+		button = (ImageButton) rowView.findViewById(R.id.likeButton);
 		// TODO ::: set the status of the button with this thangggg
-		if(q.getHasUserLiked()) textViewA.setText(textViewA.getText() + "*");
+		if(q.getHasUserLiked()) button.setImageResource(R.drawable.starchecked);
 		
 		textViewL.setText(q.getUps() + "Likes");
 		imageView.setImageResource(CategorySorter.getDrawable(q.getAnswerers().ordinal()));
 		
-		button = (ImageButton) rowView.findViewById(R.id.likeButton);/*
 		button.setOnClickListener(new OnClickListener()
 		{
 					public void onClick(View v) {
@@ -66,6 +69,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 						{
 							button.setImageResource(R.drawable.starchecked);
 							likeFlag++;
+							dbmethods.likeQuestion(q.getQuestionID(), context);
 						}
 						else 
 						{
@@ -75,7 +79,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 						
 					}
 				});
-*/
+
 		return rowView;
 	}
 } 

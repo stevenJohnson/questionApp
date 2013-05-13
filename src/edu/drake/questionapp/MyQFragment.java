@@ -100,6 +100,7 @@ public class MyQFragment extends Fragment
 				intent.putExtra("likes", myQuestions.get(pos).getUps());
 				intent.putExtra("person", myQuestions.get(pos).getAnswerers().ordinal());
 				intent.putExtra("user", myQuestions.get(pos).getUser());
+				intent.putExtra("hasLiked", myQuestions.get(pos).getHasUserLiked());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
 
 				for(Question q: myQuestions)

@@ -2,8 +2,6 @@ package edu.drake.questionapp;
 
 import java.util.ArrayList;
 
-import database.dbmethods;
-
 import utilities.AListAdapter;
 import utilities.Answer;
 import utilities.CategorySorter;
@@ -17,15 +15,19 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import database.dbmethods;
 
 public class QuestionActivity extends Activity
 {
 	private static final String TAG = "QuestionActivity";
 	Button button;
+	ImageButton likeButton;
 	int desiredQuestionID = -1;
+	int likeFlag = 0;
 	ArrayList<Answer> myAnswers = new ArrayList<Answer>();
 	Context myContext;
 
@@ -102,6 +104,28 @@ public class QuestionActivity extends Activity
 				startActivity(intent);
 			}
 		});
+		
+		likeButton = (ImageButton) findViewById(R.id.likeButton);
+		if(getIntent().getExtras().getInt("hasLiked") == 1) likeButton.setImageResource(R.drawable.starchecked); likeFlag++;
+		
+		likeButton.setOnClickListener(new OnClickListener()
+		{
+					public void onClick(View v) {
+						if (likeFlag == 0)
+						{
+							likeButton.setImageResource(R.drawable.starchecked);
+							likeFlag++;
+							dbmethods.likeQuestion(desiredQuestionID, myContext);
+						}
+						else 
+						{
+							likeButton.setImageResource(R.drawable.starunchecked);
+							likeFlag--;
+						}
+						
+					}
+				});
+		
 	}	
 
 	@Override

@@ -90,11 +90,14 @@ public class TopqActivity extends Fragment
 
 				// start new activity passing the position of the clicked picture to know what to query
 				Intent intent = new Intent(view.getContext(), QuestionActivity.class);
+				//stuff to pass down the line.
 				intent.putExtra("questionID", myQuestions.get(pos).getQuestionID());
 				intent.putExtra("question", myQuestions.get(pos).getQuestion());
 				intent.putExtra("likes", myQuestions.get(pos).getUps());
 				intent.putExtra("person", myQuestions.get(pos).getAnswerers().ordinal());
 				intent.putExtra("user", myQuestions.get(pos).getUser());
+				//note: put this next line everywhere it needs to be
+				intent.putExtra("hasLiked", myQuestions.get(pos).getHasUserLiked());
 				Log.d(TAG, "questionID passed to QuestionActivity ::: " + myQuestions.get(pos).getQuestionID());
 
 				for(Question q: myQuestions)
