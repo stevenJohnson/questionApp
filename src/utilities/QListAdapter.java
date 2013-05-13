@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import database.dbmethods;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.drake.questionapp.R;
+import edu.drake.questionapp.QuestionActivity.LikeTask;
 
 public class QListAdapter extends ArrayAdapter<Question>
 {
@@ -24,6 +26,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 	//private final String[] questions;
 	private final ArrayList<Question> list;
 	int likeFlag = 0;
+	int qid;
 
 	public QListAdapter(Context context, ArrayList<Question> list)
 	{
@@ -49,6 +52,8 @@ public class QListAdapter extends ArrayAdapter<Question>
 		final ImageButton button;
 		
 		final Question q = list.get(position);
+		
+		qid = q.getQuestionID();
 
 		textViewQ.setText(q.getQuestion());
 		textViewN.setText(q.getUser());
@@ -59,7 +64,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		// TODO ::: set the status of the button with this thangggg
 		if(q.getHasUserLiked()) button.setImageResource(R.drawable.starchecked);
 		
-		textViewL.setText(q.getUps() + "Likes");
+		textViewL.setText(q.getUps() + " Likes");
 		imageView.setImageResource(CategorySorter.getDrawable(q.getAnswerers().ordinal()));
 		
 		button.setOnClickListener(new OnClickListener()
@@ -69,7 +74,8 @@ public class QListAdapter extends ArrayAdapter<Question>
 						{
 							button.setImageResource(R.drawable.starchecked);
 							likeFlag++;
-							dbmethods.likeQuestion(q.getQuestionID(), context);
+							LikeTask l = new LikeTask();
+							l.execute();
 						}
 						else 
 						{
@@ -81,5 +87,25 @@ public class QListAdapter extends ArrayAdapter<Question>
 				});
 
 		return rowView;
+	}
+	
+	public class LikeTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			//some issue with context here.
+			dbmethods.likeQuestion(qid, context);
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if (success){
+				//do nothing, for now
+			}
+			else {
+				// post an error
+				Log.d("post ex", "didn't like :(");
+			}
+		}
 	}
 } 

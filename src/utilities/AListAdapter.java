@@ -2,10 +2,14 @@ package utilities;
 
 import java.util.ArrayList;
 
+import utilities.QListAdapter.LikeTask;
+
 import database.dbmethods;
 
 import edu.drake.questionapp.R;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,8 @@ public class AListAdapter extends ArrayAdapter<Answer>
 	private final Context context;
 	private final ArrayList<Answer> list;
 	int likeFlag = 0;
+	int qid;
+	int aid;
 
 	public AListAdapter(Context context, ArrayList<Answer> list)
 	{
@@ -40,6 +46,8 @@ public class AListAdapter extends ArrayAdapter<Answer>
 		final ImageButton button;
 
 		final Answer ansGet = list.get(position);
+		qid = ansGet.getQuestionID();
+		aid = ansGet.getAnswerID();
 		textViewA.setText(ansGet.getAnswer());
 		//textViewN.setText(""); // Without a more robust Answer object, we can't get user, answerer easily
 		textViewL.setText(ansGet.getUps() + " likes");
@@ -54,7 +62,8 @@ public class AListAdapter extends ArrayAdapter<Answer>
 						{
 							button.setImageResource(R.drawable.starchecked);
 							likeFlag++;
-							dbmethods.likeAnswer(ansGet.getQuestionID(), ansGet.getAnswerID(), context);
+							LikeTask l = new LikeTask();
+							l.execute();
 						}
 						else 
 						{
@@ -66,5 +75,25 @@ public class AListAdapter extends ArrayAdapter<Answer>
 				});
 
 		return rowView;
+	}
+	
+	public class LikeTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			//some issue with context here.
+			dbmethods.likeAnswer(qid, aid, context);
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if (success){
+				//do nothing, for now
+			}
+			else {
+				// post an error
+				Log.d("post ex", "didn't like :(");
+			}
+		}
 	}
 } 

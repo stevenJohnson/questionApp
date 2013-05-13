@@ -106,7 +106,7 @@ public class QuestionActivity extends Activity
 		});
 		
 		likeButton = (ImageButton) findViewById(R.id.likeButton);
-		if(getIntent().getExtras().getInt("hasLiked") == 1) likeButton.setImageResource(R.drawable.starchecked); likeFlag++;
+		if(getIntent().getExtras().getInt("hasLiked") == 1) likeButton.setImageResource(R.drawable.starchecked); 
 		
 		likeButton.setOnClickListener(new OnClickListener()
 		{
@@ -115,7 +115,8 @@ public class QuestionActivity extends Activity
 						{
 							likeButton.setImageResource(R.drawable.starchecked);
 							likeFlag++;
-							dbmethods.likeQuestion(desiredQuestionID, myContext);
+							LikeTask l = new LikeTask();
+							l.execute();
 						}
 						else 
 						{
@@ -161,6 +162,28 @@ public class QuestionActivity extends Activity
 			{
 				// post an error
 				Log.d("post ex", "ERRORRRRRRRRRRRRRRRRRRR");
+			}
+		}
+	}
+	
+	public class LikeTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			//some issue with context here.
+			dbmethods.likeQuestion(desiredQuestionID, myContext);
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if (success){
+				//reload the like number text view
+				TextView textViewL = (TextView) findViewById(R.id.likes);
+				textViewL.setText(getIntent().getExtras().getInt("likes") + " likes");		
+			}
+			else {
+				// post an error
+				Log.d("post ex", "didn't like :(");
 			}
 		}
 	}
