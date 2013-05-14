@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AListAdapter extends ArrayAdapter<Answer>
@@ -60,6 +59,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 					public void onClick(View v) {
 						if (likeFlag == 0)
 						{
+							aid = ansGet.getAnswerID();
 							button.setImageResource(R.drawable.starchecked);
 							likeFlag++;
 							LikeTask l = new LikeTask();
@@ -81,7 +81,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeAnswer(qid, aid, appContext);
+			dbmethods.likeAnswer(qid, aid, appContext, ((ThisApplication)appContext.getApplicationContext()).getUsername());
 			return true;
 		}
 

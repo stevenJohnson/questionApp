@@ -890,7 +890,7 @@ public class dbmethods
 	}
 
 	// untested
-	public static void likeAnswer(int questionId, int answerId, Context context)
+	public static void likeAnswer(int questionId, int answerId, Context context, String username)
 	{
 		String answerIdString = IdConverter.intToStringId(answerId);
 		String questionIdString = IdConverter.intToStringId(questionId);
@@ -916,7 +916,7 @@ public class dbmethods
 			{
 				c.cd("WhatWould");
 				c.cd("Users");
-				c.cd(((ThisApplication)context).getUsername());
+				c.cd(username);
 				c.cd("Likes");
 
 				InputStream is = c.get("likedA.txt");
@@ -994,10 +994,12 @@ public class dbmethods
 
 					s = "";
 					writer.write(scanny.nextLine()); // gets answer text
+					writer.write(System.getProperty("line.separator"));
 					writer.write(scanny.nextLine()); // gets username of answer writer
-					int currentLikes = scanny.nextInt(); // gets number of likes
+					writer.write(System.getProperty("line.separator"));
+					int currentLikes = Integer.parseInt(scanny.nextLine()); // gets number of likes
 					currentLikes++;
-					writer.write(currentLikes);
+					writer.write("" + currentLikes);
 					writer.write(System.getProperty("line.separator"));
 
 					scanny.close();
@@ -1009,6 +1011,8 @@ public class dbmethods
 					// put back the new file
 					c.rm(answerIdString + ".txt");
 					c.put(filepath, answerIdString + ".txt");
+					
+					Log.d("likeA", "put back " + answerIdString + ".txt");
 				}
 			}
 			catch(Exception ex)
@@ -1022,7 +1026,7 @@ public class dbmethods
 		}
 	}
 
-	public static ArrayList<Answer> getAnswers(int questionID)
+	public static ArrayList<Answer> getAnswers(int questionID, String appUser)
 	{
 		ArrayList<Answer> retval = new ArrayList<Answer>();
 
@@ -1074,6 +1078,37 @@ public class dbmethods
 
 					retval.add(new Answer(answer, questionID, i, ups));
 				}
+				
+				// check if user likes these answers
+				c.cd("../../../Users");
+				c.cd(appUser);
+				c.cd("Likes");
+				
+				is = c.get("likedA.txt");
+				scanny = new Scanner(is);
+				ArrayList<String> likedAs = new ArrayList<String>();
+
+				while(scanny.hasNext())
+				{
+					likedAs.add(scanny.nextLine());
+				}
+				scanny.close();
+				is.close();
+				
+				for(Answer a : retval)
+				{
+					// check if this q's ID is in likedQs
+					for(String s : likedAs)
+					{
+						String[] tmp = s.split(":");
+						if(Integer.parseInt(tmp[0]) == a.getQuestionID() && Integer.parseInt(tmp[1]) == a.getAnswerID())
+						{
+							a.setHasUserLiked(true);
+							break;
+						}
+					}
+				}
+				Log.d("getAnswers", "we got past the setting user likes !!!");
 			}
 			catch(Exception ex)
 			{

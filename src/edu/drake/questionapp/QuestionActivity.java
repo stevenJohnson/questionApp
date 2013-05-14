@@ -142,7 +142,7 @@ public class QuestionActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
-			myAnswers = dbmethods.getAnswers(desiredQuestionID);
+			myAnswers = dbmethods.getAnswers(desiredQuestionID, ((ThisApplication)myContext.getApplicationContext()).getUsername());
 			return true;
 		}
 
