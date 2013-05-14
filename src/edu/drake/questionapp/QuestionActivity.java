@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import utilities.AListAdapter;
 import utilities.Answer;
 import utilities.CategorySorter;
+import utilities.ThisApplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -170,7 +171,7 @@ public class QuestionActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeQuestion(desiredQuestionID, getApplicationContext());
+			dbmethods.likeQuestion(desiredQuestionID, myContext, ((ThisApplication)getApplicationContext()).getUsername());
 			return true;
 		}
 

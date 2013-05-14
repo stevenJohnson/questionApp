@@ -41,7 +41,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		Log.d("ASDF", "getting to getView");
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);	
+		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
 		appContext = this.context;
 
 		TextView textViewQ = (TextView) rowView.findViewById(R.id.question);
@@ -73,6 +73,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 					public void onClick(View v) {
 						if (likeFlag == 0)
 						{
+							qid = q.getQuestionID();
 							button.setImageResource(R.drawable.starchecked);
 							likeFlag++;
 							LikeTask l = new LikeTask();
@@ -94,7 +95,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeQuestion(qid, appContext);
+			dbmethods.likeQuestion(qid, appContext, ((ThisApplication)appContext.getApplicationContext()).getUsername());
 			return true;
 		}
 

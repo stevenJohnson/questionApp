@@ -609,11 +609,14 @@ public class dbmethods
 
 					for(int i = 0; i < number; i++)
 					{
-						c.cd(utilities.IdConverter.intToStringId(i));
-						Log.d("gettopq", "in first dir");
+						
 
 						try
 						{
+							c.cd(utilities.IdConverter.intToStringId(i));
+							Log.d("gettopq", "in first dir");
+							
+							
 							is = c.get("question.txt");
 							scanny = new Scanner(is);
 							garbage = scanny.nextLine();
@@ -632,8 +635,9 @@ public class dbmethods
 						{
 							scanny.close();
 							is.close();
+							c.cd("..");
 						}
-						c.cd("..");
+						
 					}
 
 					for(MiniQuestion m : retval)
@@ -728,7 +732,7 @@ public class dbmethods
 	}
 
 	// untested
-	public static void likeQuestion(int questionId, Context context)
+	public static void likeQuestion(int questionId, Context context, String username)
 	{
 		String questionIdString = IdConverter.intToStringId(questionId);
 		boolean alreadyLiked = false;
@@ -738,6 +742,9 @@ public class dbmethods
 		String host="artsci.drake.edu";
 		String passy="9Gj24!L6c848FG$";
 		int port=22;
+		
+		Log.d("likeQ", "questionID string ::: " + questionIdString);
+		Log.d("likeQ", "questionID ::: " + questionId);
 
 		try
 		{
@@ -752,8 +759,10 @@ public class dbmethods
 			{
 				c.cd("WhatWould");
 				c.cd("Users");
-				c.cd(((ThisApplication)context).getUsername());
+				c.cd(username);
 				c.cd("Likes");
+				
+				Log.d("likeQ", "cd to likes of ::: " + username);
 
 				InputStream is = c.get("likedQ.txt");
 				Scanner scanny = new Scanner(is);
@@ -781,6 +790,7 @@ public class dbmethods
 				}
 				else
 				{
+					Log.d("likeQ", "top");
 					// user doesn't already like the question, so we must add it to their likedQ.txt
 					is = c.get("likedQ.txt");
 					scanny = new Scanner(is);
@@ -812,6 +822,8 @@ public class dbmethods
 					// put back the new file
 					c.rm("likedQ.txt");
 					c.put(filepath, "likedQ.txt");
+					
+					Log.d("likeQ", "put back likedQ.txt");
 
 					// must also increment the number of likes in this question's question.txt
 					c.cd("../../../Questions");
@@ -827,14 +839,31 @@ public class dbmethods
 
 					writer = new OutputStreamWriter(new FileOutputStream(file));
 
+					Log.d("likeQ", "test1");
 					s = "";
-					writer.write(scanny.nextLine()); // gets question text
-					writer.write(scanny.nextLine()); // gets person id
-					int currentLikes = scanny.nextInt(); // gets number of likes
-					currentLikes++;
-					writer.write(currentLikes);
+					
+					s = scanny.nextLine(); // gets question text
+					Log.d("likeQ", "firstline ::: " + s);
+					writer.write(s);
 					writer.write(System.getProperty("line.separator"));
-					writer.write(scanny.nextLine()); // gets username of question writer
+					
+					s = scanny.nextLine(); // gets person id
+					Log.d("likeQ", "secondline ::: " + s);
+					writer.write(s);
+					writer.write(System.getProperty("line.separator"));
+					
+					s = scanny.nextLine(); // gets number of likes
+					Log.d("likeQ", "numlikes ::: " + s);
+					int currentLikes = Integer.parseInt(s);
+					currentLikes++;
+					writer.write("" + currentLikes);
+					writer.write(System.getProperty("line.separator"));
+					
+					s = scanny.nextLine(); // gets username of question writer
+					Log.d("likeQ", "fourthline ::: " + s);
+					writer.write(s); 
+					
+					Log.d("likeQ", "test4");
 
 					scanny.close();
 					is.close();
@@ -845,6 +874,8 @@ public class dbmethods
 					// put back the new file
 					c.rm("question.txt");
 					c.put(filepath, "question.txt");
+					
+					Log.d("likeQ", "put back question.txt");
 				}
 			}
 			catch(Exception ex)
