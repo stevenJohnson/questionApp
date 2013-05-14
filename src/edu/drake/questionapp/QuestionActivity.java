@@ -183,7 +183,7 @@ public class QuestionActivity extends Activity
 			}
 			else {
 				// post an error
-				Log.d("post ex", "didn't like :(");
+				Log.d("LikeTask", "didn't like :(");
 			}
 		}
 	}

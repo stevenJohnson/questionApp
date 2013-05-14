@@ -2,8 +2,6 @@ package utilities;
 
 import java.util.ArrayList;
 
-import utilities.QListAdapter.LikeTask;
-
 import database.dbmethods;
 
 import edu.drake.questionapp.R;
@@ -38,10 +36,10 @@ public class AListAdapter extends ArrayAdapter<Answer>
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		//appContext = ((ThisApplication) getContext());
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.anslayout, parent, false);
+		appContext = this.context;
 
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answer);
 		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
@@ -83,7 +81,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeAnswer(qid, aid, context);
+			dbmethods.likeAnswer(qid, aid, appContext);
 			return true;
 		}
 
@@ -94,7 +92,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 			}
 			else {
 				// post an error
-				Log.d("post ex", "didn't like :(");
+				Log.d("LikeTask", "didn't like :(");
 			}
 		}
 	}

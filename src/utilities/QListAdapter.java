@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.drake.questionapp.R;
-import edu.drake.questionapp.QuestionActivity.LikeTask;
 
 public class QListAdapter extends ArrayAdapter<Question>
 {
@@ -39,11 +38,11 @@ public class QListAdapter extends ArrayAdapter<Question>
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		//appContext = ((ThisApplication) getContext());
 		Log.d("ASDF", "getting to getView");
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);		
+		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);	
+		appContext = this.context;
 
 		TextView textViewQ = (TextView) rowView.findViewById(R.id.question);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
@@ -95,7 +94,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			//some issue with context here.
-			dbmethods.likeQuestion(qid, context);
+			dbmethods.likeQuestion(qid, appContext);
 			return true;
 		}
 
