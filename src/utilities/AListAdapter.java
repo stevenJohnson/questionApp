@@ -24,6 +24,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 	int qid;
 	int aid;
 	Context appContext;
+	int likeCount;
 
 	public AListAdapter(Context context, ArrayList<Answer> list)
 	{
@@ -41,7 +42,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 		appContext = this.context;
 
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answer);
-		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
+		final TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
 		final ImageButton button;
 
 		final Answer ansGet = list.get(position);
@@ -50,6 +51,7 @@ public class AListAdapter extends ArrayAdapter<Answer>
 		textViewA.setText(ansGet.getAnswer());
 		//textViewN.setText(""); // Without a more robust Answer object, we can't get user, answerer easily
 		textViewL.setText(ansGet.getUps() + " likes");
+		likeCount = ansGet.getUps();
 		
 		button = (ImageButton) rowView.findViewById(R.id.likeButton);
 		if(ansGet.getHasUserLiked()) button.setImageResource(R.drawable.starchecked);
@@ -64,11 +66,13 @@ public class AListAdapter extends ArrayAdapter<Answer>
 							likeFlag++;
 							LikeTask l = new LikeTask();
 							l.execute();
+							likeCount++;
+							textViewL.setText(likeCount + " likes");
 						}
 						else 
 						{
 							button.setImageResource(R.drawable.starunchecked);
-							likeFlag--;
+							//likeFlag--;
 						}
 						
 					}

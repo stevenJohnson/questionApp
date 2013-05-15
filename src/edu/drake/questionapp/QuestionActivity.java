@@ -31,6 +31,7 @@ public class QuestionActivity extends Activity
 	int likeFlag = 0;
 	ArrayList<Answer> myAnswers = new ArrayList<Answer>();
 	Context myContext;
+	int likeCount;
 
 	private void makeLoadingInvisible()
 	{
@@ -70,10 +71,10 @@ public class QuestionActivity extends Activity
 		TextView textViewN = (TextView) findViewById(R.id.name);
 		TextView textViewL = (TextView) findViewById(R.id.likes);
 		TextView textViewAN = (TextView) findViewById(R.id.answerername);
-		
 		textViewQ.setText(getIntent().getExtras().getString("question"));
 		textViewN.setText(getIntent().getExtras().getString("user"));
 		textViewL.setText(getIntent().getExtras().getInt("likes") + " likes");
+		likeCount = getIntent().getExtras().getInt("likes");
 		textViewAN.setText(CategorySorter.getCharacterName(getIntent().getExtras().getInt("person")));
 		imageView.setImageResource(CategorySorter.getDrawable(getIntent().getExtras().getInt("person")));
 
@@ -118,11 +119,12 @@ public class QuestionActivity extends Activity
 							likeFlag++;
 							LikeTask l = new LikeTask();
 							l.execute();
+							likeCount++;
 						}
 						else 
 						{
 							likeButton.setImageResource(R.drawable.starunchecked);
-							likeFlag--;
+							//likeFlag--;
 						}
 						
 					}
@@ -180,7 +182,7 @@ public class QuestionActivity extends Activity
 			if (success){
 				//reload the like number text view
 				TextView textViewL = (TextView) findViewById(R.id.likes);
-				textViewL.setText(getIntent().getExtras().getInt("likes") + " likes");		
+				textViewL.setText(likeCount + " likes");		
 			}
 			else {
 				// post an error

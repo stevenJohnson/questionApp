@@ -27,6 +27,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 	int likeFlag = 0;
 	int qid;
 	Context appContext;
+	int likeCount;
 
 	public QListAdapter(Context context, ArrayList<Question> list)
 	{
@@ -48,7 +49,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 		TextView textViewN = (TextView) rowView.findViewById(R.id.name);
 		TextView textViewA = (TextView) rowView.findViewById(R.id.answers);
-		TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
+		final TextView textViewL = (TextView) rowView.findViewById(R.id.likes);
 		TextView textViewAN = (TextView) rowView.findViewById(R.id.answerername);
 		final ImageButton button;
 		
@@ -66,6 +67,7 @@ public class QListAdapter extends ArrayAdapter<Question>
 		if(q.getHasUserLiked()) button.setImageResource(R.drawable.starchecked);
 		
 		textViewL.setText(q.getUps() + " Likes");
+		likeCount = q.getUps();
 		imageView.setImageResource(CategorySorter.getDrawable(q.getAnswerers().ordinal()));
 		
 		button.setOnClickListener(new OnClickListener()
@@ -78,11 +80,13 @@ public class QListAdapter extends ArrayAdapter<Question>
 							likeFlag++;
 							LikeTask l = new LikeTask();
 							l.execute();
+							likeCount++;
+							textViewL.setText(likeCount + " Likes");
 						}
 						else 
 						{
 							button.setImageResource(R.drawable.starunchecked);
-							likeFlag--;
+							//likeFlag--;
 						}
 						
 					}
