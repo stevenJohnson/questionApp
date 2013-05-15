@@ -12,6 +12,7 @@ import java.util.Vector;
 import utilities.*;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -19,6 +20,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+
+import edu.drake.questionapp.R;
+import edu.drake.questionapp.QuestionActivity.GetAnswersTask;
 
 public class dbmethods
 {
@@ -1120,6 +1124,13 @@ public class dbmethods
 			Log.d("getAnswers", ex.getMessage());
 		}
 		return retval;
+	}
+	
+	//search Results 
+	public static ArrayList<Answer> getResults(int number, String appUser)
+	{
+		return null;
+		
 	}
 
 	// recent questions

@@ -6,11 +6,8 @@ public class CategorySorter
 {
 	public static String getCharacterName(int answererOrdinal)
 	{
-		if(Answerer.Legit.ordinal() == answererOrdinal)
-		{
-			return "(to be deleted)"; // we're to delete this
-		}
-		else if(Answerer.Anyone.ordinal() == answererOrdinal)
+
+		if(Answerer.Anyone.ordinal() == answererOrdinal)
 		{
 			return "Anyone";
 		}
@@ -62,6 +59,10 @@ public class CategorySorter
 		{
 			return "Samuel L. Jackson";
 		}
+		else if(Answerer.Snoop.ordinal() == answererOrdinal)
+		{
+			return "Snoop Lion";
+		}
 		else if(Answerer.Jesus.ordinal() == answererOrdinal)
 		{
 			return "Jesus";
@@ -110,7 +111,6 @@ public class CategorySorter
 	}
 
 	private static int[] position = {
-		Answerer.Legit.ordinal(),
 		Answerer.Anyone.ordinal(),
 		Answerer.Ke$ha.ordinal(),
 		Answerer.Confucius.ordinal(),
@@ -120,6 +120,7 @@ public class CategorySorter
 		Answerer.Armstrong.ordinal(),
 		Answerer.Norris.ordinal(),
 		Answerer.Jackson.ordinal(),
+		Answerer.Snoop.ordinal(),
 		Answerer.Ghandi.ordinal(),
 		Answerer.Shakespeare.ordinal(),
 		Answerer.TSwift.ordinal(),
@@ -137,7 +138,6 @@ public class CategorySorter
 	};
 
 	private static int[] drawableID = {
-		R.drawable.legit,
 		R.drawable.anyone,
 		R.drawable.kesha,
 		R.drawable.confucius,
@@ -147,6 +147,7 @@ public class CategorySorter
 		R.drawable.armstrong,
 		R.drawable.norris,
 		R.drawable.jackson,
+		R.drawable.snooplion,
 		R.drawable.ghandi,
 		R.drawable.shakespeare,
 		R.drawable.tswift,

@@ -2,7 +2,6 @@ package utilities;
 
 public enum Answerer
 {
-	Legit,
 	Anyone,
 	Ke$ha,
 	Confucius, 
@@ -12,6 +11,7 @@ public enum Answerer
 	Armstrong, 
 	Norris, 
 	Jackson,
+	Snoop,
 	Ghandi,
 	Shakespeare, 
 	TSwift,
